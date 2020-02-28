@@ -20,6 +20,7 @@
 		"indent": false,
 		"trailing-comma": false,
 		"jsx-wrap-multiline": false,
-		"arrow-parens": false
+		"arrow-parens": false,
+		"no-shadowed-variable": false
 	}
 }

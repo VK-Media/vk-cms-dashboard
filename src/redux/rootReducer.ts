@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
-
-import dataReducer from './data/data.reducer'
+import authenticationReducer from './authentication/authentication.reducer'
 
 const reducer = combineReducers({
-	data: dataReducer
+	authentication: authenticationReducer
 })
 
 export default reducer

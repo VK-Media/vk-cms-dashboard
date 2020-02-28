@@ -1,28 +1,22 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
+import { login } from '../redux/authentication/authentication.effects'
+import { IAuthenticationState } from '../types/redux/authentication.types'
+import Login from './login/Login'
 
-import { addTextToData } from '../redux/data/data.action'
-import { IDataState } from '../types/redux/data.types'
-
-import styles from './App.module.scss'
-
-interface IAppProps {
-	data: string[]
-}
-
-const App: React.FC<IAppProps> = props => {
+const App: React.FC = () => {
 	return (
-		<div className={styles.app}>
-			<h1>VK Media</h1>
-			<h4>React Redux TypeScript Template</h4>
-		</div>
+		<Container as="main" fluid={true}>
+			<Login />
+		</Container>
 	)
 }
 
-const mapStateToProps = (state: IDataState) => {
+const mapStateToProps = (state: IAuthenticationState) => {
 	return {
-		data: state.data
+		jwt: state.jwt
 	}
 }
 
-export default connect(mapStateToProps, { addTextToData })(App)
+export default connect(mapStateToProps, { login })(App)
