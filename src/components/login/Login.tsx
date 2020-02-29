@@ -1,22 +1,53 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
 import { connect } from 'react-redux'
 import { AuthenticationEffect, ILoginInput } from '../../interfaces/authentication.interfaces'
 import { login } from '../../redux/authentication/authentication.effects'
-import { IAuthenticationState } from '../../types/redux/authentication.types'
+import { IState } from '../../types/redux/general.types'
 
 interface ILoginProps {
+	jwt?: string
+	error: boolean
+	loading: boolean
+
 	login(input: ILoginInput): AuthenticationEffect
 }
 
-const Login: React.FC<ILoginProps> = ({ login }) => {
-	useEffect(() => {
-		login({email: 'robin@vkmedia.dk', password: 'test1234'})
-	}, [login])
+const Login: React.FC<ILoginProps> = ({ jwt, error, loading, login }) => {
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+
+	const submitHandler = (e: any) => {
+		e.preventDefault()
+		login({ email, password })
+	}
+
+	const renderErrorMessage = () => {
+		if (error) {
+			return (
+				<Row>
+					<Col xl={{ span: 4, offset: 4 }}>
+						<Alert variant="danger">The entered information is incorrect</Alert>
+					</Col>
+				</Row>
+			)
+		}
+
+		return null
+	}
+
+	const renderLoader = () => {
+		if (loading) {
+			return <Spinner animation="border"/>
+		}
+
+		return null
+	}
 
 	return (
 		<>
@@ -27,25 +58,33 @@ const Login: React.FC<ILoginProps> = ({ login }) => {
 			</Row>
 			<Row>
 				<Col xl={{ span: 4, offset: 4 }}>
-					<Alert variant="info">
-						Login to the dashboard by filling out the form below
-					</Alert>
+					<Alert variant="info">Login to the dashboard by filling out the form below</Alert>
 				</Col>
 			</Row>
+			{renderErrorMessage()}
 			<Row>
 				<Col xl={{ span: 4, offset: 4 }}>
-					<Form>
+					<Form onSubmit={submitHandler}>
 						<Form.Group controlId="formGroupEmail">
 							<Form.Label>Email address</Form.Label>
-							<Form.Control type="email" placeholder="Enter email" />
+							<Form.Control
+								type="email"
+								placeholder="Enter email"
+								value={email}
+								onChange={(e: any) => setEmail(e.target.value)}
+							/>
 						</Form.Group>
 						<Form.Group controlId="formGroupPassword">
 							<Form.Label>Password</Form.Label>
-							<Form.Control type="password" placeholder="Password" />
+							<Form.Control
+								type="password"
+								placeholder="Password"
+								value={password}
+								onChange={(e: any) => setPassword(e.target.value)}
+							/>
 						</Form.Group>
-						<Button variant="primary" type="submit">
-							Login
-						</Button>
+						<Button variant="primary" type="submit">Login</Button>
+						{renderLoader()}
 					</Form>
 				</Col>
 			</Row>
@@ -53,9 +92,11 @@ const Login: React.FC<ILoginProps> = ({ login }) => {
 	)
 }
 
-const mapStateToProps = (state: IAuthenticationState) => {
+const mapStateToProps = (state: IState) => {
 	return {
-		jwt: state.jwt
+		jwt: state.authentication.jwt,
+		error: state.authentication.error,
+		loading: state.authentication.loading
 	}
 }
 

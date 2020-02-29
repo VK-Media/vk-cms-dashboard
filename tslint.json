@@ -21,6 +21,7 @@
 		"trailing-comma": false,
 		"jsx-wrap-multiline": false,
 		"arrow-parens": false,
-		"no-shadowed-variable": false
+		"no-shadowed-variable": false,
+		"jsx-no-lambda": false
 	}
 }

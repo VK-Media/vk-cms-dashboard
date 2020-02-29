@@ -3,8 +3,8 @@ import { AuthenticationEffect, ILoginInput } from '../../interfaces/authenticati
 import { IAuthenticationResponseData } from '../../types/redux/authentication.types'
 import { authenticationFailed, authenticationSucceeded, startAuthentication } from './authentication.actions'
 
-export const login = (loginInput: ILoginInput): AuthenticationEffect => async (dispatch, getState) => {
-	dispatch(startAuthentication)
+export const login = (loginInput: ILoginInput): AuthenticationEffect => async (dispatch) => {
+	dispatch(startAuthentication())
 
 	try {
 		const response = await cmsApi.post('/auth/login', loginInput)

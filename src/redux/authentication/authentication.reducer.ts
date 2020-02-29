@@ -23,6 +23,7 @@ const reducer = (state = initialState, action: AuthenticationAction) => {
 			return produce(state, draft => {
 				draft.jwt = action.payload
 				draft.loading = false
+				draft.error = false
 			})
 		default:
 			return state
