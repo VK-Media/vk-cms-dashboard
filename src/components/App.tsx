@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
-import Container from 'react-bootstrap/Container'
+import React, { Suspense, useEffect } from 'react'
+import Spinner from 'react-bootstrap/Spinner'
 import { connect } from 'react-redux'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { authenticationSucceeded } from '../redux/authentication/authentication.actions'
-import RootRoutes from '../routes/root.routes'
+import routes from '../routes'
 import { getTokenFromLocalStorage } from '../utils/authentication.utils'
 
 interface IAppProps {
@@ -18,10 +19,20 @@ const App: React.FC<IAppProps> = ({ authenticationSucceeded }) => {
         }
     }, [authenticationSucceeded])
 
+    const renderRoutes = () => {
+        return routes.map(route => {
+            return (<Route key={route.path} path={route.path} component={route.component} exact={route.exact}/>)
+        })
+    }
+
     return (
-        <Container as="main" fluid={true}>
-            <RootRoutes/>
-        </Container>
+        <BrowserRouter>
+            <Suspense fallback={<Spinner animation="border"/>}>
+                <Switch>
+                    {renderRoutes()}
+                </Switch>
+            </Suspense>
+        </BrowserRouter>
     )
 }
 

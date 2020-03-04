@@ -1,12 +1,12 @@
 import React from 'react'
-import AuthenticationWrapper from '../authentication/AuthenticationWrapper'
+import DashboardLayout from '../layouts/Dashboard/DashboardLayout'
 
 const Dashboard: React.FC = () => {
-	return (
-		<AuthenticationWrapper>
-			<h1>Dashboard</h1>
-		</AuthenticationWrapper>
-	)
+    return (
+        <DashboardLayout>
+            <h1>Dashboard</h1>
+        </DashboardLayout>
+    )
 }
 
 export default Dashboard

@@ -1,16 +1,19 @@
 // Colors
-$light-grey: lightGrey;
+$light-grey: #f2f2f2;
 $dark-grey: darkGrey;
-$red: #e84a5f;;
-$white: #f2f2f2;
+$red: #e84a5f;
+$white: #ffffff;
 $black: #0d0d0d;
 $cobalt: #34495e;
 $purple: #9b59b6;
 $blue: #3498db;
 $green: #27af61;
-$turquise: #1abc9c;
+$turquoise: #1abc9c;
 
 // Sizes
 $spacer: 20px;
-$navigation-width: 250px;
-$status-bar-button-height: 50px;
+$navigation-width: 60px;
+$navigation-width-expanded: 250px;
+
+// Misc
+$border-radius: 4px;
