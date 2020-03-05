@@ -56,20 +56,30 @@
                 align-items: center;
                 border-left: 2px solid transparent;
                 transition: all .4s;
-                padding: 15px;
-                fill: $cobalt;
                 height: 55px;
                 width: $navigation-width-expanded;
                 text-decoration: none;
 
+                .icon-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: calc(#{$navigation-width} - 2px);
+                }
+
                 svg {
                     height: 100%;
                     width: 30px;
+                    margin-left: -2px;
+                    transition: fill .4s;
+                    fill: $dark-grey;
                 }
 
                 span {
-                    margin-left: $spacer;
+                    margin-left: $spacer * .5;
                     white-space: nowrap;
+                    transition: color .4s;
+                    color: $dark-grey;
                 }
 
                 &.active,
@@ -77,7 +87,14 @@
                 &:focus {
                     border-left: 2px solid $blue;
                     background-color: lighten($blue, 43);
-                    fill: $blue;
+
+                    svg {
+                        fill: $blue;
+                    }
+
+                    span {
+                        color: $blue;
+                    }
                 }
             }
         }

@@ -4,7 +4,7 @@ import { IState } from '../../../types/redux/general.types'
 import AuthenticationWrapper from '../../authentication/AuthenticationWrapper'
 import DashboardContent from './DashboardContent'
 import styles from './DashboardLayout.module.scss'
-import DashboardNavigation from './DashboardNavigation'
+import DashboardNavigation from './Navigation/DashboardNavigation'
 
 interface IDashboardLayoutProps {
     menuExpanded: boolean
