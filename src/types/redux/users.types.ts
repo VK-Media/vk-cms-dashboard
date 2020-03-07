@@ -1,13 +1,7 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { IState } from './general.types'
-
-export interface IUserGroupModel {
-    _id: string
-    name: string
-    admin: boolean
-    modules: string[]
-}
+import { IUserGroup } from './userGroups.types'
 
 export enum Languages {
     DANISH = 'DANISH',
@@ -22,7 +16,7 @@ export interface IUser {
     _id: string
     email: string
     password: string
-    userGroups: IUserGroupModel[]
+    userGroups: IUserGroup[]
     firstName?: string
     lastName?: string
     settings: IUserSettings
