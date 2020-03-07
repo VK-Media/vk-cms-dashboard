@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchUsers } from '../../redux/users/users.effects'
-import { IState } from '../../types/redux/general.types'
-import { IUser, UsersEffect } from '../../types/redux/users.types'
-import DashboardLayout from '../layouts/Dashboard/DashboardLayout'
+import { fetchUsers } from '../../../redux/users/users.effects'
+import { IState } from '../../../types/redux/general.types'
+import { IUser, UsersEffect } from '../../../types/redux/users.types'
 import styles from './Users.module.scss'
 
 interface IUsersProps {
@@ -45,15 +44,16 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
     }
 
     return (
-        <DashboardLayout>
+        <>
             <div className={styles.heading}>
-                <div><h1>Users</h1>
+                <div>
+                    <h1>Users</h1>
                     <div>{users?.length} total</div>
                 </div>
                 <button className={`${styles.button} ${styles.success}`}>Create User</button>
             </div>
             {renderUserList()}
-        </DashboardLayout>
+        </>
     )
 }
 

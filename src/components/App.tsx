@@ -1,16 +1,18 @@
-import React, { Suspense, useEffect } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { authenticationSucceeded } from '../redux/authentication/authentication.actions'
-import routes from '../routes'
+import { IState } from '../types/redux/general.types'
 import { getTokenFromLocalStorage } from '../utils/authentication.utils'
+import Dashboard from './dashboard/Dashboard'
+import Frontend from './frontend/Frontend'
 
 interface IAppProps {
+    jwt?: string
+
     authenticationSucceeded(token: string): void
 }
 
-const App: React.FC<IAppProps> = ({ authenticationSucceeded }) => {
+const App: React.FC<IAppProps> = ({ jwt, authenticationSucceeded }) => {
     useEffect(() => {
         const token = getTokenFromLocalStorage()
 
@@ -19,21 +21,21 @@ const App: React.FC<IAppProps> = ({ authenticationSucceeded }) => {
         }
     }, [authenticationSucceeded])
 
-    const renderRoutes = () => {
-        return routes.map(route => {
-            return (<Route key={route.path} path={route.path} component={route.component} exact={route.exact}/>)
-        })
+    const renderApp = () => {
+        if (jwt) {
+            return <Dashboard/>
+        }
+
+        return <Frontend/>
     }
 
-    return (
-        <BrowserRouter>
-            <Suspense fallback={<Spinner animation="border"/>}>
-                <Switch>
-                    {renderRoutes()}
-                </Switch>
-            </Suspense>
-        </BrowserRouter>
-    )
+    return renderApp()
 }
 
-export default connect(null, { authenticationSucceeded })(App)
+const mapStateToProps = (state: IState) => {
+    return {
+        jwt: state.authentication.jwt
+    }
+}
+
+export default connect(mapStateToProps, { authenticationSucceeded })(App)

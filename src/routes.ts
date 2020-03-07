@@ -1,13 +1,15 @@
 import React from 'react'
 
-const Dashboard = React.lazy(() => import('./components/dashboard/Dashboard'))
-const Login = React.lazy(() => import('./components/login/Login'))
-const Users = React.lazy(() => import('./components/users/Users'))
+const Home = React.lazy(() => import('./components/dashboard/home/Home'))
+const Users = React.lazy(() => import('./components/dashboard/users/Users'))
 
-const routes = [
-    { path: '/login', exact: true, component: Login },
-    { path: '/dashboard', exact: true, component: Dashboard },
+export const dashboardRoutes = [
+    { path: '/dashboard', exact: true, component: Home },
     { path: '/users', exact: true, component: Users }
 ]
 
-export default routes
+const Login = React.lazy(() => import('./components/frontend/login/Login'))
+
+export const frontendRoutes = [
+    { path: '/login', exact: true, component: Login }
+]

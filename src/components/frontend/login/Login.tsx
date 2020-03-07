@@ -7,9 +7,9 @@ import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { AuthenticationEffect, ILoginInput } from '../../interfaces/authentication.interfaces'
-import { login } from '../../redux/authentication/authentication.effects'
-import { IState } from '../../types/redux/general.types'
+import { AuthenticationEffect, ILoginInput } from '../../../interfaces/authentication.interfaces'
+import { login } from '../../../redux/authentication/authentication.effects'
+import { IState } from '../../../types/redux/general.types'
 
 interface ILoginProps {
 	jwt?: string
