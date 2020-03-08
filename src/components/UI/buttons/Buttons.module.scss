@@ -1,0 +1,33 @@
+@import '../../../styles/_variables.scss';
+
+.button {
+    border: none;
+    background-color: $dark-grey;
+    border-radius: $border-radius;
+    color: $white;
+    -webkit-appearance: none;
+    font-size: 14px;
+    padding: 0 $spacer * .5;
+    height: $spacer * 1.5;
+
+    &.success {
+        background-color: $green;
+    }
+
+    &.primary {
+        background-color: $blue;
+    }
+}
+
+.text-button {
+    color: $dark-grey;
+    cursor: pointer;
+
+    &.success {
+        color: $green;
+    }
+
+    &.primary {
+        color: $blue;
+    }
+}

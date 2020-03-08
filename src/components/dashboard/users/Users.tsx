@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { buttonTypes } from '../../../interfaces/button.interfaces'
 import { fetchUsers } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
 import { IUser, UsersEffect } from '../../../types/redux/users.types'
+import DefaultButton from '../../UI/buttons/DefaultButton'
+import TextButton from '../../UI/buttons/TextButton'
 import styles from './Users.module.scss'
 
 interface IUsersProps {
@@ -23,7 +26,7 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
                     <div key={user._id} className={styles.user}>
                         <div>{user.firstName} {user.lastName}</div>
                         <div>{user.email}</div>
-                        <div className={styles.controls}>Manage</div>
+                        <div className={styles.controls}><TextButton text="Manage" type={buttonTypes.PRIMARY}/></div>
                     </div>
                 )
             })
@@ -50,7 +53,7 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
                     <h1>Users</h1>
                     <div>{users?.length} total</div>
                 </div>
-                <button className={`${styles.button} ${styles.success}`}>Create User</button>
+                <DefaultButton text="Create User" type={buttonTypes.SUCCESS}/>
             </div>
             {renderUserList()}
         </>

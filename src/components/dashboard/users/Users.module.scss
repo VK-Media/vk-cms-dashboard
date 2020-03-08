@@ -1,5 +1,4 @@
 @import '../../../styles/variables';
-@import '../../../styles/buttons';
 
 .heading {
     display: flex;
@@ -53,8 +52,6 @@
 
         .controls {
             text-align: right;
-            cursor: pointer;
-            color: $blue;
         }
     }
 }
