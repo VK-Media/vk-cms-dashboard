@@ -4,11 +4,17 @@ import styles from './Buttons.module.scss'
 
 interface IDefaultButtonProps {
     text: string
-    type: buttonTypes
+    type?: buttonTypes
 }
 
 const DefaultButton: React.FC<IDefaultButtonProps> = ({ text, type }) => {
-    return <button className={`${styles.button} ${styles[type]}`}>{text}</button>
+    const classes = [styles.button]
+
+    if (type) {
+        classes.push(styles[type])
+    }
+
+    return <button className={classes.join(' ')}>{text}</button>
 }
 
 export default DefaultButton

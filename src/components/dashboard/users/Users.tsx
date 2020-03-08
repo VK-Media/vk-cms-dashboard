@@ -21,12 +21,14 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
 
     const renderUserList = () => {
         if (users) {
-            const usersJsx = users.map((user: IUser) => {
+            const listItems = users.map((user: IUser) => {
                 return (
                     <div key={user._id} className={styles.user}>
                         <div>{user.firstName} {user.lastName}</div>
                         <div>{user.email}</div>
-                        <div className={styles.controls}><TextButton text="Manage" type={buttonTypes.PRIMARY}/></div>
+                        <div className={styles.controls}>
+                            <TextButton text="Manage" type={buttonTypes.PRIMARY}/>
+                        </div>
                     </div>
                 )
             })
@@ -38,7 +40,7 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
                         <div>Email</div>
                         <div/>
                     </div>
-                    {usersJsx}
+                    {listItems}
                 </div>
             )
         }
