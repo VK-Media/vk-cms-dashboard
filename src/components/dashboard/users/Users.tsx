@@ -27,7 +27,7 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
                         <div>{user.firstName} {user.lastName}</div>
                         <div>{user.email}</div>
                         <div className={styles.controls}>
-                            <TextButton text="Manage" type={buttonTypes.PRIMARY}/>
+                            <TextButton text="Manage" type={buttonTypes.PRIMARY} href={`/users/${user._id}`}/>
                         </div>
                     </div>
                 )
@@ -55,7 +55,7 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
                     <h1>Users</h1>
                     <div>{users?.length} total</div>
                 </div>
-                <DefaultButton text="Create User" type={buttonTypes.SUCCESS}/>
+                <DefaultButton text="Create User" type={buttonTypes.SUCCESS} href="/users/create"/>
             </div>
             {renderUserList()}
         </>

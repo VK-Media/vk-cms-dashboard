@@ -4,8 +4,10 @@ import { IState } from './general.types'
 import { IUserGroup } from './userGroups.types'
 
 export interface IUserInput {
-    email: string
-    password: string
+    firstName?: string
+    lastName?: string
+    email?: string
+    password?: string
 }
 
 export enum Languages {

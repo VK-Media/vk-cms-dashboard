@@ -1,0 +1,8 @@
+@import '../../../styles/_variables';
+
+.widget {
+    padding: $spacer;
+    border-radius: $border-radius;
+    background-color: $white;
+    margin-bottom: $spacer;
+}

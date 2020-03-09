@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { authenticationSucceeded } from '../redux/authentication/authentication.actions'
 import { IState } from '../types/redux/general.types'
 import { getTokenFromLocalStorage } from '../utils/authentication.utils'
+import styles from './App.module.scss'
 import Dashboard from './dashboard/Dashboard'
 import Frontend from './frontend/Frontend'
 
@@ -29,7 +30,11 @@ const App: React.FC<IAppProps> = ({ jwt, authenticationSucceeded }) => {
         return <Frontend/>
     }
 
-    return renderApp()
+    return (
+        <div className={styles.app}>
+            {renderApp()}
+        </div>
+    )
 }
 
 const mapStateToProps = (state: IState) => {

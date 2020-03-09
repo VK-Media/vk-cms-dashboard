@@ -76,13 +76,13 @@ export const createUser = (userInput: IUserInput): UsersEffect => async (dispatc
     }
 }
 
-export const updateUser = (userInput: IUserInput): UsersEffect => async (dispatch, getState) => {
+export const updateUser = (userInput: IUserInput, id: string): UsersEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
 
     dispatch(startUpdateUser())
 
     try {
-        const response = await cmsApi.patch(`/users`, userInput, {
+        const response = await cmsApi.patch(`/users/${id}`, userInput, {
             headers: { Authorization: `Bearer ${currentState.authentication.jwt}` }
         })
 
