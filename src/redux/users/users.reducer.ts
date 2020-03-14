@@ -3,6 +3,7 @@ import { IUsersState, UsersAction } from '../../types/redux/users.types'
 
 export const initialState: IUsersState = {
     users: [],
+    userToUpdate: undefined,
     loading: false,
     error: false
 }
@@ -23,6 +24,10 @@ const reducer = (state = initialState, action: UsersAction) => {
                 draft.users = action.payload
                 draft.loading = false
                 draft.error = false
+            })
+        case 'fetchSingleUserSucceeded':
+            return produce(state, draft => {
+                draft.userToUpdate = action.payload
             })
         default:
             return state

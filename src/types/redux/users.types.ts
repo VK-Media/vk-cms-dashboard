@@ -25,7 +25,7 @@ export interface IUser {
     _id: string
     email: string
     password: string
-    userGroups: IUserGroup[]
+    userGroups: string[]
     firstName?: string
     lastName?: string
     settings: IUserSettings
@@ -33,6 +33,7 @@ export interface IUser {
 
 export interface IUsersState {
     users?: IUser[]
+    userToUpdate?: IUser
     loading: boolean
     error: boolean
 }

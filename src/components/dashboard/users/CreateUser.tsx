@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { connect } from 'react-redux'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
@@ -23,7 +21,7 @@ interface ICreateUserProps {
     fetchUserGroups(): UserGroupsEffect
 }
 
-const CreateUser: React.FC<ICreateUserProps> = ({ loading, error, userGroups, createUser, fetchUserGroups }) => {
+const CreateUser: React.FC<ICreateUserProps> = ({ loading, userGroups, createUser, fetchUserGroups }) => {
     const initialSelectedUserGroups: string[] = []
 
     const [firstName, setFirstName] = useState('')
@@ -40,20 +38,6 @@ const CreateUser: React.FC<ICreateUserProps> = ({ loading, error, userGroups, cr
     const submitHandler = (e: any) => {
         e.preventDefault()
         createUser({ firstName, lastName, email, password, settings: { language }, userGroups: selectedUserGroups })
-    }
-
-    const renderErrorMessage = () => {
-        if (error) {
-            return (
-                <Row>
-                    <Col xl={{ span: 4, offset: 4 }}>
-                        <Alert variant="danger">Something went wrong, please try again</Alert>
-                    </Col>
-                </Row>
-            )
-        }
-
-        return null
     }
 
     const renderLoader = () => {
@@ -107,8 +91,6 @@ const CreateUser: React.FC<ICreateUserProps> = ({ loading, error, userGroups, cr
     return (
         <>
             <h1>Create New User</h1>
-
-            {renderErrorMessage()}
 
             <Form onSubmit={submitHandler}>
                 <Widget>

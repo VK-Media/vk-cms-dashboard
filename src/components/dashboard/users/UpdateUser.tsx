@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { connect } from 'react-redux'
-import { updateUser } from '../../../redux/users/users.effects'
+import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
+import { fetchSingleUser, updateUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
-import { IUser, IUserInput, UsersEffect } from '../../../types/redux/users.types'
+import { IUserGroup, UserGroupsEffect } from '../../../types/redux/userGroups.types'
+import { IUser, IUserInput, Languages, UsersEffect } from '../../../types/redux/users.types'
 import Widget from '../../UI/widget/Widget'
 
 interface ICreateUserProps {
@@ -19,49 +19,105 @@ interface ICreateUserProps {
     }
     loading: boolean
     error: boolean
-    users?: IUser[]
+    userToUpdate?: IUser
+    userGroups?: IUserGroup[]
 
     updateUser(input: IUserInput, id: string): UsersEffect
+
+    fetchSingleUser(id: string): UsersEffect
+
+    fetchUserGroups(): UserGroupsEffect
 }
 
-const UpdateUser: React.FC<ICreateUserProps> = ({ match, loading, error, users, updateUser }) => {
+const UpdateUser: React.FC<ICreateUserProps> = ({
+    match,
+    loading,
+    userToUpdate,
+    updateUser,
+    userGroups,
+    fetchSingleUser,
+    fetchUserGroups
+}) => {
+    const initialSelectedUserGroups: string[] = []
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
+    const [language, setLanguage] = useState(Languages.ENGLISH)
+    const [selectedUserGroups, setSelectedUserGroups] = useState(initialSelectedUserGroups)
 
     useEffect(() => {
-        if (users) {
-            const userToUpdate = users.find((user: IUser) => {
-                return user._id === match?.params.id
-            })
-
-            if (userToUpdate) {
-                if (userToUpdate.firstName) {
-                    setFirstName(userToUpdate.firstName)
-                }
-
-                if (userToUpdate.lastName) {
-                    setLastName(userToUpdate?.lastName)
-                }
-
-                setEmail(userToUpdate.email)
-            }
+        if (match && match.params.id) {
+            fetchSingleUser(match.params.id)
         }
-    }, [users, match])
+    }, [match, fetchSingleUser])
+
+    useEffect(() => {
+        fetchUserGroups()
+    }, [fetchUserGroups])
+
+    useEffect(() => {
+        if (userToUpdate) {
+            if (userToUpdate.firstName) {
+                setFirstName(userToUpdate.firstName)
+            }
+
+            if (userToUpdate.lastName) {
+                setLastName(userToUpdate.lastName)
+            }
+
+            setEmail(userToUpdate.email)
+            setLanguage(userToUpdate.settings.language)
+            setSelectedUserGroups(userToUpdate.userGroups)
+        }
+    }, [userToUpdate])
 
     const submitHandler = (e: any) => {
         e.preventDefault()
 
         if (match && match.params.id) {
-            updateUser({ firstName, lastName, email }, match.params.id)
+            updateUser(
+                { firstName, lastName, email, settings: { language }, userGroups: selectedUserGroups },
+                match.params.id
+            )
         }
     }
 
-    const renderErrorMessage = () => {
-        if (error) {
-            return (
-                <Alert variant="danger">Something went wrong, please try again</Alert>
-            )
+    const handleUserGroupChange = (e: any) => {
+        const isChecked = e.target.checked
+        const userGroupId = e.target.value
+
+        if (isChecked) {
+            setSelectedUserGroups([...selectedUserGroups, userGroupId])
+        } else {
+            const newSelectedUserGroups = [...selectedUserGroups]
+            const index = newSelectedUserGroups.indexOf(userGroupId)
+
+            if (index > -1) {
+                newSelectedUserGroups.splice(index, 1)
+            }
+
+            setSelectedUserGroups(newSelectedUserGroups)
+        }
+    }
+
+    const isUserGroupChecked = (value: string): boolean => {
+        return selectedUserGroups.indexOf(value) > -1
+    }
+
+    const renderUserGroupOptions = () => {
+        if (userGroups) {
+            return userGroups.map(userGroup => {
+                return (
+                    <Form.Check
+                        value={userGroup._id}
+                        key={userGroup._id}
+                        label={userGroup.name}
+                        checked={isUserGroupChecked(userGroup._id)}
+                        onChange={handleUserGroupChange}
+                    />
+                )
+            })
         }
 
         return null
@@ -79,11 +135,11 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match, loading, error, users, 
         <>
             <h1>Update user</h1>
 
-            {renderErrorMessage()}
-
             <Form onSubmit={submitHandler}>
                 <Widget>
-                    <Row>
+                    <Widget.Heading text="Personal Information"/>
+
+                    <Form.Row>
                         <Col lg={6}>
                             <Form.Group>
                                 <Form.Label>First Name</Form.Label>
@@ -104,9 +160,9 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match, loading, error, users, 
                                 />
                             </Form.Group>
                         </Col>
-                    </Row>
+                    </Form.Row>
 
-                    <Row>
+                    <Form.Row>
                         <Col lg={6}>
                             <Form.Group>
                                 <Form.Label>Email address</Form.Label>
@@ -117,7 +173,39 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match, loading, error, users, 
                                 />
                             </Form.Group>
                         </Col>
-                    </Row>
+                    </Form.Row>
+                </Widget>
+
+                <Widget>
+                    <Widget.Heading text="Settings"/>
+
+                    <Form.Row>
+                        <Col lg={6}>
+                            <Form.Group>
+                                <Form.Label>Language</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    value={language}
+                                    onChange={(e: any) => setLanguage(e.target.value)}
+                                >
+                                    <option value={Languages.ENGLISH}>English</option>
+                                    <option value={Languages.DANISH}>Danish</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
+                </Widget>
+
+                <Widget>
+                    <Widget.Heading text="User Groups"/>
+
+                    <Form.Row>
+                        <Col lg={6}>
+                            <Form.Group>
+                                {renderUserGroupOptions()}
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
                 </Widget>
 
                 <Button variant="primary" type="submit">Update</Button>
@@ -131,7 +219,8 @@ const mapStateToProps = (state: IState) => {
     return {
         loading: state.users.loading,
         error: state.users.error,
-        users: state.users.users
+        userToUpdate: state.users.userToUpdate,
+        userGroups: state.userGroups.userGroups
     }
 }
-export default connect(mapStateToProps, { updateUser })(UpdateUser)
+export default connect(mapStateToProps, { updateUser, fetchSingleUser, fetchUserGroups })(UpdateUser)
