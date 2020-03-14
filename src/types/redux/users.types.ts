@@ -8,6 +8,8 @@ export interface IUserInput {
     lastName?: string
     email?: string
     password?: string
+    settings?: IUserSettings
+    userGroups?: string[]
 }
 
 export enum Languages {
