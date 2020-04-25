@@ -1,16 +1,14 @@
-import React, { PropsWithChildren } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { IState } from '../../../types/redux/general.types'
 import AuthenticationWrapper from '../../authentication/AuthenticationWrapper'
 import DashboardContent from './DashboardContent'
 import styles from './DashboardLayout.module.scss'
 import DashboardNavigation from './Navigation/DashboardNavigation'
 
-interface IDashboardLayoutProps {
-    menuExpanded: boolean
-}
+const DashboardLayout: React.FC = ({ children }) => {
+    const menuExpanded = useSelector((state: IState) => state.dashboard.menuExpanded)
 
-const DashboardLayout: React.FC<PropsWithChildren<IDashboardLayoutProps>> = ({ children, menuExpanded }) => {
     const dashboardLayoutClasses = () => {
         const classes = [styles['dashboard-layout']]
 
@@ -31,9 +29,4 @@ const DashboardLayout: React.FC<PropsWithChildren<IDashboardLayoutProps>> = ({ c
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        menuExpanded: state.dashboard.menuExpanded
-    }
-}
-export default connect(mapStateToProps)(DashboardLayout)
+export default DashboardLayout

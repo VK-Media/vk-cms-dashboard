@@ -3,12 +3,11 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { fetchSingleUser, updateUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
-import { IUserGroup, UserGroupsEffect } from '../../../types/redux/userGroups.types'
-import { IUser, IUserInput, Languages, UsersEffect } from '../../../types/redux/users.types'
+import { Languages } from '../../../types/redux/users.types'
 import Widget from '../../UI/widget/Widget'
 
 interface ICreateUserProps {
@@ -17,27 +16,14 @@ interface ICreateUserProps {
             id?: string
         }
     }
-    loading: boolean
-    error: boolean
-    userToUpdate?: IUser
-    userGroups?: IUserGroup[]
-
-    updateUser(input: IUserInput, id: string): UsersEffect
-
-    fetchSingleUser(id: string): UsersEffect
-
-    fetchUserGroups(): UserGroupsEffect
 }
 
-const UpdateUser: React.FC<ICreateUserProps> = ({
-    match,
-    loading,
-    userToUpdate,
-    updateUser,
-    userGroups,
-    fetchSingleUser,
-    fetchUserGroups
-}) => {
+const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
+    const dispatch = useDispatch()
+    const loading = useSelector((state: IState) => state.users.loading)
+    // const error = useSelector((state: IState) => state.users.error)
+    const userToUpdate = useSelector((state: IState) => state.users.userToUpdate)
+    const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
     const initialSelectedUserGroups: string[] = []
 
     const [firstName, setFirstName] = useState('')
@@ -48,13 +34,13 @@ const UpdateUser: React.FC<ICreateUserProps> = ({
 
     useEffect(() => {
         if (match && match.params.id) {
-            fetchSingleUser(match.params.id)
+            dispatch(fetchSingleUser(match.params.id))
         }
-    }, [match, fetchSingleUser])
+    }, [match, dispatch])
 
     useEffect(() => {
-        fetchUserGroups()
-    }, [fetchUserGroups])
+        dispatch(fetchUserGroups())
+    }, [dispatch])
 
     useEffect(() => {
         if (userToUpdate) {
@@ -76,10 +62,10 @@ const UpdateUser: React.FC<ICreateUserProps> = ({
         e.preventDefault()
 
         if (match && match.params.id) {
-            updateUser(
+            dispatch(updateUser(
                 { firstName, lastName, email, settings: { language }, userGroups: selectedUserGroups },
                 match.params.id
-            )
+            ))
         }
     }
 
@@ -215,12 +201,4 @@ const UpdateUser: React.FC<ICreateUserProps> = ({
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        loading: state.users.loading,
-        error: state.users.error,
-        userToUpdate: state.users.userToUpdate,
-        userGroups: state.userGroups.userGroups
-    }
-}
-export default connect(mapStateToProps, { updateUser, fetchSingleUser, fetchUserGroups })(UpdateUser)
+export default UpdateUser

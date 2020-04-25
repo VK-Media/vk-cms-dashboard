@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authenticationSucceeded } from '../redux/authentication/authentication.actions'
 import { IState } from '../types/redux/general.types'
 import { getTokenFromLocalStorage } from '../utils/authentication.utils'
@@ -7,20 +7,17 @@ import styles from './App.module.scss'
 import Dashboard from './dashboard/Dashboard'
 import Frontend from './frontend/Frontend'
 
-interface IAppProps {
-    jwt?: string
+const App: React.FC = () => {
+    const dispatch = useDispatch()
+    const jwt = useSelector((state: IState) => state.authentication.jwt)
 
-    authenticationSucceeded(token: string): void
-}
-
-const App: React.FC<IAppProps> = ({ jwt, authenticationSucceeded }) => {
     useEffect(() => {
         const token = getTokenFromLocalStorage()
 
         if (token) {
-            authenticationSucceeded(token)
+            dispatch(authenticationSucceeded(token))
         }
-    }, [authenticationSucceeded])
+    }, [dispatch])
 
     const renderApp = () => {
         if (jwt) {
@@ -37,10 +34,4 @@ const App: React.FC<IAppProps> = ({ jwt, authenticationSucceeded }) => {
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        jwt: state.authentication.jwt
-    }
-}
-
-export default connect(mapStateToProps, { authenticationSucceeded })(App)
+export default App

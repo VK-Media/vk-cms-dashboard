@@ -1,23 +1,20 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { buttonTypes } from '../../../interfaces/button.interfaces'
 import { fetchUsers } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
-import { IUser, UsersEffect } from '../../../types/redux/users.types'
+import { IUser } from '../../../types/redux/users.types'
 import DefaultButton from '../../UI/buttons/DefaultButton'
 import TextButton from '../../UI/buttons/TextButton'
 import styles from './Users.module.scss'
 
-interface IUsersProps {
-    users?: IUser[]
+const Users: React.FC = () => {
+    const dispatch = useDispatch()
+    const users = useSelector((state: IState) => state.users.users)
 
-    fetchUsers(): UsersEffect
-}
-
-const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
     useEffect(() => {
-        fetchUsers()
-    }, [fetchUsers])
+        dispatch(fetchUsers())
+    }, [dispatch])
 
     const renderUserList = () => {
         if (users) {
@@ -62,10 +59,4 @@ const Users: React.FC<IUsersProps> = ({ users, fetchUsers }) => {
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        users: state.users.users
-    }
-}
-
-export default connect(mapStateToProps, { fetchUsers })(Users)
+export default Users

@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { IState } from '../../../types/redux/general.types'
-import { IUserGroup, UserGroupsEffect } from '../../../types/redux/userGroups.types'
+import { IUserGroup } from '../../../types/redux/userGroups.types'
 import styles from './UserGroups.module.scss'
 
-interface IUsersProps {
-    userGroups?: IUserGroup[]
+const UserGroups: React.FC = () => {
+    const dispatch = useDispatch()
+    const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
 
-    fetchUserGroups(): UserGroupsEffect
-}
-
-const UserGroups: React.FC<IUsersProps> = ({ userGroups, fetchUserGroups }) => {
     useEffect(() => {
-        fetchUserGroups()
-    }, [fetchUserGroups])
+        dispatch(fetchUserGroups())
+    }, [dispatch])
 
     const renderUserGroupList = () => {
         if (userGroups) {
@@ -55,10 +52,4 @@ const UserGroups: React.FC<IUsersProps> = ({ userGroups, fetchUserGroups }) => {
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        userGroups: state.userGroups.userGroups
-    }
-}
-
-export default connect(mapStateToProps, { fetchUserGroups })(UserGroups)
+export default UserGroups

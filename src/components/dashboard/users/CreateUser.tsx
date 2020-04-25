@@ -3,25 +3,23 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { createUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
-import { IUserGroup, UserGroupsEffect } from '../../../types/redux/userGroups.types'
-import { IUserInput, Languages, UsersEffect } from '../../../types/redux/users.types'
+import { Languages } from '../../../types/redux/users.types'
 import Widget from '../../UI/widget/Widget'
 
-interface ICreateUserProps {
-    loading: boolean
-    error: boolean
-    userGroups?: IUserGroup[]
+const CreateUser: React.FC = () => {
+    const dispatch = useDispatch()
+    const loading = useSelector((state: IState) => state.users.loading)
+    // const error = useSelector((state: IState) => state.users.error)
+    const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
 
-    createUser(input: IUserInput): UsersEffect
+    useEffect(() => {
+        dispatch(fetchUserGroups())
+    }, [dispatch])
 
-    fetchUserGroups(): UserGroupsEffect
-}
-
-const CreateUser: React.FC<ICreateUserProps> = ({ loading, userGroups, createUser, fetchUserGroups }) => {
     const initialSelectedUserGroups: string[] = []
 
     const [firstName, setFirstName] = useState('')
@@ -31,13 +29,16 @@ const CreateUser: React.FC<ICreateUserProps> = ({ loading, userGroups, createUse
     const [language, setLanguage] = useState(Languages.ENGLISH)
     const [selectedUserGroups, setSelectedUserGroups] = useState(initialSelectedUserGroups)
 
-    useEffect(() => {
-        fetchUserGroups()
-    }, [fetchUserGroups])
-
     const submitHandler = (e: any) => {
         e.preventDefault()
-        createUser({ firstName, lastName, email, password, settings: { language }, userGroups: selectedUserGroups })
+        dispatch(createUser({
+            firstName,
+            lastName,
+            email,
+            password,
+            settings: { language },
+            userGroups: selectedUserGroups
+        }))
     }
 
     const renderLoader = () => {
@@ -183,11 +184,4 @@ const CreateUser: React.FC<ICreateUserProps> = ({ loading, userGroups, createUse
     )
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        loading: state.users.loading,
-        error: state.users.error,
-        userGroups: state.userGroups.userGroups
-    }
-}
-export default connect(mapStateToProps, { createUser, fetchUserGroups })(CreateUser)
+export default CreateUser

@@ -1,7 +1,6 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { IState } from './general.types'
-import { IUserGroup } from './userGroups.types'
 
 export interface IUserInput {
     firstName?: string
