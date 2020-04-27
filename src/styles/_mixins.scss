@@ -1,0 +1,6 @@
+@import './variables';
+
+@mixin gridLayout {
+    display: grid;
+    padding: $spacer;
+}

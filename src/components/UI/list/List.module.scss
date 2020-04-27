@@ -1,0 +1,68 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.list {
+    margin-bottom: $spacer;
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        > div {
+            display: flex;
+            align-items: flex-end;
+
+            h1 {
+                margin-right: $spacer;
+                margin-bottom: 0;
+            }
+
+            div {
+                color: rgba($cobalt, .5);
+            }
+        }
+    }
+}
+
+.items {
+    margin-top: $spacer;
+
+    .headings {
+        @include gridLayout;
+        padding-bottom: $spacer * .5;
+
+        div {
+            text-transform: uppercase;
+            font-size: 12px;
+            color: rgba($cobalt, .5);
+            font-weight: 700;
+        }
+    }
+
+    .item {
+        @include gridLayout;
+        background-color: $white;
+        border-radius: $border-radius;
+
+        &:not(:last-of-type) {
+            margin-bottom: $spacer;
+        }
+
+        .controls {
+            text-align: right;
+        }
+    }
+
+    @for $i from 1 through 10 {
+        &.cols-#{$i} {
+            .headings {
+                grid-template-columns: repeat(#{$i}, 1fr);
+            }
+
+            .item {
+                grid-template-columns: repeat(#{$i}, 1fr);
+            }
+        }
+    }
+}
