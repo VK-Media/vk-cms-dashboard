@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { Container, Item } from 'vk-grid'
 import { login } from '../../../redux/authentication/authentication.effects'
 import { IState } from '../../../types/redux/general.types'
 
@@ -26,11 +25,11 @@ const Login: React.FC = () => {
     const renderErrorMessage = () => {
         if (error) {
             return (
-                <Row>
-                    <Col xl={{ span: 4, offset: 4 }}>
+                <Container>
+                    <Item xl={{ span: 4, offset: 4 }}>
                         <Alert variant="danger">The entered information is incorrect</Alert>
-                    </Col>
-                </Row>
+                    </Item>
+                </Container>
             )
         }
 
@@ -48,19 +47,19 @@ const Login: React.FC = () => {
     const renderLoginForm = () => {
         return (
             <>
-                <Row>
-                    <Col xl={{ span: 4, offset: 4 }}>
+                <Container>
+                    <Item xl={{ span: 4, offset: 4 }}>
                         <h1 className="mt-5">Login</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xl={{ span: 4, offset: 4 }}>
+                    </Item>
+                </Container>
+                <Container>
+                    <Item xl={{ span: 4, offset: 4 }}>
                         <Alert variant="info">Login to the dashboard by filling out the form below</Alert>
-                    </Col>
-                </Row>
+                    </Item>
+                </Container>
                 {renderErrorMessage()}
-                <Row>
-                    <Col xl={{ span: 4, offset: 4 }}>
+                <Container>
+                    <Item xl={{ span: 4, offset: 4 }}>
                         <Form onSubmit={submitHandler}>
                             <Form.Group controlId="formGroupEmail">
                                 <Form.Label>Email address</Form.Label>
@@ -83,8 +82,8 @@ const Login: React.FC = () => {
                             <Button variant="primary" type="submit">Login</Button>
                             {renderLoader()}
                         </Form>
-                    </Col>
-                </Row>
+                    </Item>
+                </Container>
             </>
         )
     }

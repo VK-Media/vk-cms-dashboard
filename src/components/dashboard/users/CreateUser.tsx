@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
+import { Container, Item } from 'vk-grid'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { createUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
@@ -97,8 +97,8 @@ const CreateUser: React.FC = () => {
                 <Widget>
                     <Widget.Heading text="Personal Information"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>First Name</Form.Label>
                                 <Form.Control
@@ -107,8 +107,8 @@ const CreateUser: React.FC = () => {
                                     onChange={(e: any) => setFirstName(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                        <Col lg={6}>
+                        </Item>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Last Name</Form.Label>
                                 <Form.Control
@@ -117,11 +117,11 @@ const CreateUser: React.FC = () => {
                                     onChange={(e: any) => setLastName(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
@@ -130,8 +130,8 @@ const CreateUser: React.FC = () => {
                                     onChange={(e: any) => setEmail(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                        <Col lg={6}>
+                        </Item>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
@@ -141,15 +141,15 @@ const CreateUser: React.FC = () => {
                                     autoComplete="new-password"
                                 />
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Widget>
                     <Widget.Heading text="Settings"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Language</Form.Label>
                                 <Form.Control
@@ -161,20 +161,20 @@ const CreateUser: React.FC = () => {
                                     <option value={Languages.DANISH}>Danish</option>
                                 </Form.Control>
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Widget>
                     <Widget.Heading text="User Groups"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 {renderUserGroupOptions()}
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Button variant="primary" type="submit">Create</Button>

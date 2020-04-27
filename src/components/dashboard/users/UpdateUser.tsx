@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
+import { Container, Item } from 'vk-grid'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { fetchSingleUser, updateUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
@@ -125,8 +125,8 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                 <Widget>
                     <Widget.Heading text="Personal Information"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>First Name</Form.Label>
                                 <Form.Control
@@ -135,8 +135,8 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                                     onChange={(e: any) => setFirstName(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                        <Col lg={6}>
+                        </Item>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Last Name</Form.Label>
                                 <Form.Control
@@ -145,11 +145,11 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                                     onChange={(e: any) => setLastName(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
@@ -158,15 +158,15 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                                     onChange={(e: any) => setEmail(e.target.value)}
                                 />
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Widget>
                     <Widget.Heading text="Settings"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>Language</Form.Label>
                                 <Form.Control
@@ -178,20 +178,20 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                                     <option value={Languages.DANISH}>Danish</option>
                                 </Form.Control>
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Widget>
                     <Widget.Heading text="User Groups"/>
 
-                    <Form.Row>
-                        <Col lg={6}>
+                    <Container space={1}>
+                        <Item lg={6}>
                             <Form.Group>
                                 {renderUserGroupOptions()}
                             </Form.Group>
-                        </Col>
-                    </Form.Row>
+                        </Item>
+                    </Container>
                 </Widget>
 
                 <Button variant="primary" type="submit">Update</Button>
