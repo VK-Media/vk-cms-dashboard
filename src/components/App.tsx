@@ -6,6 +6,7 @@ import { getTokenFromLocalStorage } from '../utils/authentication.utils'
 import styles from './App.module.scss'
 import Dashboard from './dashboard/Dashboard'
 import Frontend from './frontend/Frontend'
+import Notifications from './UI/notifications/Notifications'
 
 const App: React.FC = () => {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const App: React.FC = () => {
 
     return (
         <div className={styles.app}>
+            <Notifications/>
             {renderApp()}
         </div>
     )

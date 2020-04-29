@@ -1,0 +1,109 @@
+@import '../../../../styles/variables';
+
+.notification {
+    position: relative;
+    display: flex;
+    margin-bottom: $spacer;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: $white;
+    width: calc(100vw - #{$spacer} * 2);
+    max-width: 350px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, .1);
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: $spacer * .5;
+        cursor: pointer;
+
+        svg {
+            fill: $cobalt;
+            width: $spacer * .5;
+            transition: fill .25s;
+        }
+
+        &:hover {
+            svg {
+                fill: $red;
+            }
+        }
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: grey;
+        width: 60px;
+
+        svg {
+            fill: $white;
+            width: 30px;
+        }
+    }
+
+    .content {
+        padding: $spacer * .5;
+        flex: 1;
+
+        .heading {
+            font-weight: 500;
+            font-size: 110%;
+            color: grey;
+            padding-right: $spacer;
+        }
+
+        .message {
+            font-weight: 300;
+        }
+    }
+
+    &.type-1 {
+        .icon {
+            background-color: $blue;
+        }
+
+        .content {
+            .heading {
+                color: $blue;
+            }
+        }
+    }
+
+    &.type-2 {
+        .icon {
+            background-color: $green;
+        }
+
+        .content {
+            .heading {
+                color: $green;
+            }
+        }
+    }
+
+    &.type-3 {
+        .icon {
+            background-color: $yellow;
+        }
+
+        .content {
+            .heading {
+                color: $yellow;
+            }
+        }
+    }
+
+    &.type-4 {
+        .icon {
+            background-color: $red;
+        }
+
+        .content {
+            .heading {
+                color: $red;
+            }
+        }
+    }
+}

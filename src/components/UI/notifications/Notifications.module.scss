@@ -1,0 +1,9 @@
+@import '../../../styles/variables';
+
+.notifications {
+    position: absolute;
+    top: $spacer;
+    right: $spacer;
+    max-height: calc(100vh - #{$spacer});
+    overflow-y: auto;
+}

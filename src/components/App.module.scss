@@ -1,6 +1,8 @@
 @import '../styles/variables';
 
 .app {
+    position: relative;
+
     h1 {
         margin-bottom: $spacer;
     }
