@@ -21,7 +21,6 @@ interface ICreateUserProps {
 const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
     const dispatch = useDispatch()
     const loading = useSelector((state: IState) => state.users.loading)
-    // const error = useSelector((state: IState) => state.users.error)
     const userToUpdate = useSelector((state: IState) => state.users.userToUpdate)
     const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
     const initialSelectedUserGroups: string[] = []

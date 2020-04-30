@@ -1,6 +1,7 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { IState } from './general.types'
+import { IAddNotification } from './notifications.types'
 
 export interface IUserInput {
     firstName?: string
@@ -118,5 +119,6 @@ export type UsersAction =
     | IDeleteUserSucceeded
     | IStartDeleteUser
     | IDeleteUserFailed
+    | IAddNotification
 
 export type UsersEffect = ThunkAction<any, IState, any, UsersAction>

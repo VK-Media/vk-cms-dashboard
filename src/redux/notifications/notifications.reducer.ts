@@ -9,7 +9,7 @@ const reducer = (state = initialState, action: NotificationsAction) => {
     switch (action.type) {
         case 'addNotification':
             return produce(state, draft => {
-                draft.notifications = [action.payload, ...state.notifications]
+                draft.notifications = [...state.notifications, action.payload]
             })
         case 'removeNotification':
             return produce(state, draft => {

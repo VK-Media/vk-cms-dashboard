@@ -15,6 +15,7 @@ const reducer = (state = initialState, action: UsersAction) => {
                 draft.loading = true
             })
         case 'fetchUsersFailed':
+        case 'updateUserFailed':
             return produce(state, draft => {
                 draft.loading = false
                 draft.error = true

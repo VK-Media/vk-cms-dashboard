@@ -3,12 +3,14 @@
 .notification {
     position: relative;
     display: flex;
+    align-items: center;
     margin-bottom: $spacer;
     border-radius: 5px;
     overflow: hidden;
     background-color: $white;
     width: calc(100vw - #{$spacer} * 2);
-    max-width: 350px;
+    max-width: 400px;
+    height: $notificationHeight;
     box-shadow: 0 0 6px rgba(0, 0, 0, .1);
 
     .close {
@@ -33,6 +35,7 @@
     .icon {
         display: flex;
         align-items: center;
+        align-self: stretch;
         justify-content: center;
         background-color: grey;
         width: 60px;
@@ -106,4 +109,22 @@
             }
         }
     }
+}
+
+.enter {
+    height: 0;
+}
+
+.enterActive {
+    height: $notificationHeight;
+    transition: height 250ms;
+}
+
+.exit {
+    height: $notificationHeight;
+}
+
+.exitActive {
+    height: 0;
+    transition: height 250ms;
 }

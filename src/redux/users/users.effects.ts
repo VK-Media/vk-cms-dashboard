@@ -1,14 +1,19 @@
 import cmsApi from '../../apis/cms.api'
 import { IState } from '../../types/redux/general.types'
+import { NotificationTypes } from '../../types/redux/notifications.types'
 import { IUserInput, UsersEffect } from '../../types/redux/users.types'
+import { addNotification } from '../notifications/notifications.actions'
 import {
     createUserFailed,
-    createUserSucceeded, deleteUserFailed, deleteUserSucceeded,
+    createUserSucceeded,
+    deleteUserFailed,
+    deleteUserSucceeded,
     fetchSingleUserFailed,
     fetchSingleUserSucceeded,
     fetchUsersFailed,
     fetchUsersSucceeded,
-    startCreateUser, startDeleteUser,
+    startCreateUser,
+    startDeleteUser,
     startFetchSingleUser,
     startFetchUsers,
     startUpdateUser,
@@ -88,11 +93,26 @@ export const updateUser = (userInput: IUserInput, id: string): UsersEffect => as
 
         if (response.status >= 200 && response.status < 300) {
             dispatch(updateUserSucceeded(response.data))
+            dispatch(addNotification({
+                heading: 'Success',
+                message: 'The user has been updated',
+                type: NotificationTypes.SUCCESS
+            }))
         } else {
             dispatch(updateUserFailed())
+            dispatch(addNotification({
+                heading: 'Error',
+                message: 'Something went wrong, try again later',
+                type: NotificationTypes.ERROR
+            }))
         }
     } catch (error) {
         dispatch(updateUserFailed())
+        dispatch(addNotification({
+            heading: 'Error',
+            message: 'Something went wrong, try again later',
+            type: NotificationTypes.ERROR
+        }))
     }
 }
 
