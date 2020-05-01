@@ -1,6 +1,7 @@
 import { IAuthenticationState } from './authentication.types'
 import { IDashboardState } from './dashboard.types'
 import { INotificationsState } from './notifications.types'
+import { ISingletonsState } from './singletons.types'
 import { IUserGroupsState } from './userGroups.types'
 import { IUsersState } from './users.types'
 
@@ -9,5 +10,6 @@ export interface IState {
     dashboard: IDashboardState
     users: IUsersState
     userGroups: IUserGroupsState
-    notifications: INotificationsState
+    notifications: INotificationsState,
+    singletons: ISingletonsState
 }
