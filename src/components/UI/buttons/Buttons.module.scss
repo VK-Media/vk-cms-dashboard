@@ -34,6 +34,14 @@
             background-color: darken($blue, 10);
         }
     }
+
+    &.error {
+        background-color: $red;
+
+        &:hover {
+            background-color: darken($red, 10);
+        }
+    }
 }
 
 .text-button {
@@ -41,6 +49,7 @@
     cursor: pointer;
     text-decoration: none;
     transition: color .4s;
+    display: inline-block;
 
     &:hover {
         text-decoration: none;
@@ -60,6 +69,32 @@
 
         &:hover {
             color: darken($blue, 10);
+        }
+    }
+
+    &.error {
+        color: $red;
+
+        &:hover {
+            color: darken($red, 10);
+        }
+    }
+
+    @for $i from 1 through 3 {
+        &.space-top-#{$i} {
+            padding-top: calc(#{$i} * 10px);
+        }
+
+        &.space-right-#{$i} {
+            padding-right: calc(#{$i} * 10px);
+        }
+
+        &.space-bottom-#{$i} {
+            padding-bottom: calc(#{$i} * 10px);
+        }
+
+        &.space-left-#{$i} {
+            padding-left: calc(#{$i} * 10px);
         }
     }
 }

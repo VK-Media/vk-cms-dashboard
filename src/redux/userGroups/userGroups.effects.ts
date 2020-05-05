@@ -14,7 +14,7 @@ export const fetchUserGroups = (): UserGroupsEffect => async (dispatch, getState
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchUserGroupsSucceeded(response.data))
+            dispatch(fetchUserGroupsSucceeded(response.data.objects))
         } else {
             dispatch(fetchUserGroupsFailed())
         }

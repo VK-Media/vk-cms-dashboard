@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { useDispatch } from 'react-redux'
+import Spinner from 'react-bootstrap/Spinner'
+import { useDispatch, useSelector } from 'react-redux'
+import { RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
 import { createSingleton } from '../../../redux/singletons/singletons.effects'
+import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
 
-const CreateSingleton: React.FC = () => {
+const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch()
+    const loading = useSelector((state: IState) => state.singletons.loading)
 
     const [name, setName] = useState('')
 
@@ -15,7 +19,15 @@ const CreateSingleton: React.FC = () => {
         e.preventDefault()
         dispatch(createSingleton({
             name
-        }))
+        }, history))
+    }
+
+    const renderLoader = () => {
+        if (loading) {
+            return <Spinner animation="border"/>
+        }
+
+        return null
     }
 
     return (
@@ -41,6 +53,7 @@ const CreateSingleton: React.FC = () => {
                 </Widget>
 
                 <Button variant="primary" type="submit">Create</Button>
+                {renderLoader()}
             </Form>
         </>
     )

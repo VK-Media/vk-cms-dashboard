@@ -1,13 +1,20 @@
 import {
     ICreateSingletonSucceeded,
-    IFetchSingletonsSucceeded,
+    IDeleteSingletonSuccess,
+    IFetchSingletonsSuccess,
     IFetchSingletonSucceeded,
-    ISingleton
+    ISingleton,
+    ISingletonEffectError,
+    IStartSingletonEffect
 } from '../../types/redux/singletons.types'
 
-export const fetchSingletonsSucceeded = (singletons: ISingleton[]): IFetchSingletonsSucceeded => ({
-    type: 'fetchSingletonsSucceeded',
-    payload: singletons
+export const fetchSingletonsSuccess = (
+    singletons: ISingleton[],
+    count: number,
+    append: boolean
+): IFetchSingletonsSuccess => ({
+    type: 'fetchSingletonsSuccess',
+    payload: { singletons, count, append }
 })
 
 export const fetchSingletonSucceeded = (singleton: ISingleton): IFetchSingletonSucceeded => ({
@@ -17,4 +24,17 @@ export const fetchSingletonSucceeded = (singleton: ISingleton): IFetchSingletonS
 
 export const createSingletonSucceeded = (): ICreateSingletonSucceeded => ({
     type: 'createSingletonSucceeded'
+})
+
+export const startSingletonEffect = (): IStartSingletonEffect => ({
+    type: 'startSingletonEffect'
+})
+
+export const singletonEffectError = (): ISingletonEffectError => ({
+    type: 'singletonEffectError'
+})
+
+export const deleteSingletonSuccess = (id: string): IDeleteSingletonSuccess => ({
+    type: 'deleteSingletonSuccess',
+    payload: id
 })

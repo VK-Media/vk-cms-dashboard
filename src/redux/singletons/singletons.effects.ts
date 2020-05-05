@@ -1,38 +1,50 @@
+import { History } from 'history'
 import cmsApi from '../../apis/cms.api'
+import { IFetchListArguments } from '../../types/general.types'
 import { IState } from '../../types/redux/general.types'
 import { NotificationTypes } from '../../types/redux/notifications.types'
 import { ISingletonInput, SingletonsEffect } from '../../types/redux/singletons.types'
+import { dispatchErrorNotification } from '../../utils/notification.utils'
 import { addNotification } from '../notifications/notifications.actions'
-import { createSingletonSucceeded, fetchSingletonsSucceeded, fetchSingletonSucceeded } from './singletons.actions'
+import {
+    createSingletonSucceeded,
+    fetchSingletonsSuccess,
+    fetchSingletonSucceeded,
+    singletonEffectError,
+    startSingletonEffect
+} from './singletons.actions'
 
-export const fetchSingletons = (): SingletonsEffect => async (dispatch, getState) => {
+export const fetchSingletons = (options: IFetchListArguments = {
+    limit: 10,
+    offset: 0,
+    append: false
+}): SingletonsEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
+    const { limit, offset } = options
+
+    dispatch(startSingletonEffect())
 
     try {
-        const response = await cmsApi.get('/singletons', {
+        const response = await cmsApi.get(`/singletons?limit=${limit}&offset=${offset}`, {
             headers: { Authorization: `Bearer ${currentState.authentication.jwt}` }
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchSingletonsSucceeded(response.data))
+            dispatch(fetchSingletonsSuccess(response.data.objects, response.data.count, options.append))
         } else {
-            dispatch(addNotification({
-                heading: 'Error',
-                message: 'Something went wrong, try again later',
-                type: NotificationTypes.ERROR
-            }))
+            dispatchErrorNotification(dispatch)
+            dispatch(singletonEffectError())
         }
     } catch (error) {
-        dispatch(addNotification({
-            heading: 'Error',
-            message: 'Something went wrong, try again later',
-            type: NotificationTypes.ERROR
-        }))
+        dispatchErrorNotification(dispatch)
+        dispatch(singletonEffectError())
     }
 }
 
 export const fetchSingleton = (id: string): SingletonsEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
+
+    dispatch(startSingletonEffect())
 
     try {
         const response = await cmsApi.get(`/singletons/${id}`, {
@@ -42,23 +54,22 @@ export const fetchSingleton = (id: string): SingletonsEffect => async (dispatch,
         if (response.status >= 200 && response.status < 300) {
             dispatch(fetchSingletonSucceeded(response.data))
         } else {
-            dispatch(addNotification({
-                heading: 'Error',
-                message: 'Something went wrong, try again later',
-                type: NotificationTypes.ERROR
-            }))
+            dispatchErrorNotification(dispatch)
+            dispatch(singletonEffectError())
         }
     } catch (error) {
-        dispatch(addNotification({
-            heading: 'Error',
-            message: 'Something went wrong, try again later',
-            type: NotificationTypes.ERROR
-        }))
+        dispatchErrorNotification(dispatch)
+        dispatch(singletonEffectError())
     }
 }
 
-export const createSingleton = (singletonInput: ISingletonInput): SingletonsEffect => async (dispatch, getState) => {
+export const createSingleton = (singletonInput: ISingletonInput, history: History): SingletonsEffect => async (
+    dispatch,
+    getState
+) => {
     const currentState: IState = getState()
+
+    dispatch(startSingletonEffect())
 
     try {
         const response = await cmsApi.post(`/singletons`, singletonInput, {
@@ -72,24 +83,25 @@ export const createSingleton = (singletonInput: ISingletonInput): SingletonsEffe
                 message: 'The singleton has been created',
                 type: NotificationTypes.SUCCESS
             }))
+            history.push('/singletons')
         } else {
-            dispatch(addNotification({
-                heading: 'Error',
-                message: 'Something went wrong, try again later',
-                type: NotificationTypes.ERROR
-            }))
+            dispatchErrorNotification(dispatch)
+            dispatch(singletonEffectError())
         }
     } catch (error) {
-        dispatch(addNotification({
-            heading: 'Error',
-            message: 'Something went wrong, try again later',
-            type: NotificationTypes.ERROR
-        }))
+        dispatchErrorNotification(dispatch)
+        dispatch(singletonEffectError())
     }
 }
 
-export const updateSingleton = (singletonInput: ISingletonInput, id: string): SingletonsEffect => async (dispatch, getState) => {
+export const updateSingleton = (
+    singletonInput: ISingletonInput,
+    id: string,
+    history: History
+): SingletonsEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
+
+    dispatch(startSingletonEffect())
 
     try {
         const response = await cmsApi.patch(`/singletons/${id}`, singletonInput, {
@@ -102,18 +114,13 @@ export const updateSingleton = (singletonInput: ISingletonInput, id: string): Si
                 message: 'The singleton has been updated',
                 type: NotificationTypes.SUCCESS
             }))
+            history.push('/singletons')
         } else {
-            dispatch(addNotification({
-                heading: 'Error',
-                message: 'Something went wrong, try again later',
-                type: NotificationTypes.ERROR
-            }))
+            dispatchErrorNotification(dispatch)
+            dispatch(singletonEffectError())
         }
     } catch (error) {
-        dispatch(addNotification({
-            heading: 'Error',
-            message: 'Something went wrong, try again later',
-            type: NotificationTypes.ERROR
-        }))
+        dispatchErrorNotification(dispatch)
+        dispatch(singletonEffectError())
     }
 }

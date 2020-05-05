@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { buttonTypes } from '../../../interfaces/button.interfaces'
+import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
+import { NotificationTypes } from '../../../types/redux/notifications.types'
 import DefaultButton from '../buttons/DefaultButton'
 import TextButton from '../buttons/TextButton'
 import styles from './List.module.scss'
@@ -9,21 +12,69 @@ interface IColumn {
     fields: string | string[]
 }
 
-interface INewButton {
+interface IButton {
     enable: boolean
     label?: string
 }
 
 interface IListProps {
     heading?: string
-    items?: any[]
-    newButton: INewButton
+    createItems?: IButton
+    editItems?: IButton
+    deleteItems?: IButton
     columns: IColumn[]
     type: string
+    limit?: number
+    actions: {
+        startAction: CallableFunction
+        fetchSuccessAction: CallableFunction
+        deleteSuccessAction: CallableFunction
+        errorAction: CallableFunction
+    }
 }
 
-const List: React.FC<IListProps> = ({ heading, items, newButton, columns, type }) => {
+const List: React.FC<IListProps> = ({
+        heading,
+        createItems = { enable: true },
+        editItems = { enable: true },
+        deleteItems = { enable: true },
+        columns,
+        type,
+        limit = 9,
+        actions: { startAction, fetchSuccessAction, deleteSuccessAction, errorAction }
+    }
+) => {
+    const dispatch = useDispatch()
+    const [offset, setOffset] = useState(1)
+    const items = useSelector((state: any) => state[type][type])
+    const count = useSelector((state: any) => state[type]['count'])
+
+    useEffect(() => {
+        dispatch(fetchListItems({
+            type,
+            startAction,
+            successAction: fetchSuccessAction,
+            errorAction,
+            limit,
+            offset: 0,
+            append: false
+        }))
+    }, [dispatch, type, limit, startAction, fetchSuccessAction, errorAction])
+
     const typeUrl = type.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)
+
+    const clickShowMore = () => {
+        dispatch(fetchListItems({
+            type,
+            startAction,
+            successAction: fetchSuccessAction,
+            errorAction,
+            limit,
+            offset,
+            append: true
+        }))
+        setOffset(offset + 1)
+    }
 
     const renderListHeadings = () => {
         return columns.map((column: IColumn) => {
@@ -58,12 +109,13 @@ const List: React.FC<IListProps> = ({ heading, items, newButton, columns, type }
     }
 
     const renderItems = () => {
-        return items?.map(item => {
+        return items.map((item: any) => {
             return (
                 <div key={item._id} className={styles.item}>
                     {renderItemValues(item)}
                     <div className={styles.controls}>
-                        <TextButton text="Manage" type={buttonTypes.PRIMARY} href={`/${typeUrl}/${item._id}`}/>
+                        {renderEditButton(item._id)}
+                        {renderDeleteButton(item._id)}
                     </div>
                 </div>
             )
@@ -71,13 +123,74 @@ const List: React.FC<IListProps> = ({ heading, items, newButton, columns, type }
     }
 
     const renderNewButton = () => {
-        if (newButton.enable) {
+        if (createItems && createItems.enable) {
             return (
                 <DefaultButton
-                    text={newButton.label ?? 'Create New'}
+                    text={createItems.label ?? 'Create New'}
                     type={buttonTypes.SUCCESS}
                     href={`/${typeUrl}/create`}
                 />
+            )
+        }
+
+        return null
+    }
+
+    const renderEditButton = (id: string) => {
+        if (editItems && editItems.enable) {
+            let space = {}
+            const label = editItems.label ?? 'Edit'
+
+            if (deleteItems && deleteItems.enable) {
+                space = { right: 1 }
+            }
+
+            return (
+                <TextButton
+                    text={label}
+                    space={space}
+                    type={buttonTypes.PRIMARY}
+                    href={`/${typeUrl}/${id}`}
+                />
+            )
+        }
+
+        return null
+    }
+
+    const renderDeleteButton = (id: string) => {
+        if (deleteItems && deleteItems.enable) {
+            const label = deleteItems.label ?? 'Delete'
+
+            return (
+                <TextButton
+                    text={label}
+                    type={buttonTypes.ERROR}
+                    onClick={() => dispatch(deleteItem({
+                        id,
+                        type,
+                        startAction,
+                        errorAction,
+                        successAction: deleteSuccessAction,
+                        successNofitifcation: {
+                            heading: 'Success',
+                            message: 'The item has been deleted',
+                            type: NotificationTypes.SUCCESS
+                        }
+                    }))}
+                />
+            )
+        }
+
+        return null
+    }
+
+    const renderShowMoreButton = () => {
+        if (count > items.length) {
+            return (
+                <div className={styles['show-more']}>
+                    <TextButton text="Show more" type={buttonTypes.PRIMARY} onClick={clickShowMore}/>
+                </div>
             )
         }
 
@@ -89,7 +202,7 @@ const List: React.FC<IListProps> = ({ heading, items, newButton, columns, type }
             <div className={styles.heading}>
                 <div>
                     <h1>{heading ?? 'List'}</h1>
-                    <div>{items?.length ?? 0} total</div>
+                    <div>{count} total</div>
                 </div>
                 {renderNewButton()}
             </div>
@@ -102,6 +215,8 @@ const List: React.FC<IListProps> = ({ heading, items, newButton, columns, type }
 
                 {renderItems()}
             </div>
+
+            {renderShowMoreButton()}
         </div>
     )
 }

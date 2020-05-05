@@ -32,7 +32,7 @@ export const fetchUsers = (): UsersEffect => async (dispatch, getState) => {
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchUsersSucceeded(response.data))
+            dispatch(fetchUsersSucceeded(response.data.objects))
         } else {
             dispatch(fetchUsersFailed())
         }

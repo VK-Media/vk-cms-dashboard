@@ -1,4 +1,5 @@
 export enum buttonTypes {
     SUCCESS = 'success',
-    PRIMARY = 'primary'
+    PRIMARY = 'primary',
+    ERROR = 'error'
 }
