@@ -8,6 +8,7 @@ const ListUserGroups = React.lazy(() => import('./components/dashboard/userGroup
 const ListSingletons = React.lazy(() => import('./components/dashboard/singletons/List'))
 const CreateSingleton = React.lazy(() => import('./components/dashboard/singletons/Create'))
 const UpdateSingleton = React.lazy(() => import('./components/dashboard/singletons/Update'))
+const ListMedia = React.lazy(() => import('./components/dashboard/media/List'))
 
 export const dashboardRoutes = [
     { path: '/dashboard', exact: true, component: Home },
@@ -17,7 +18,8 @@ export const dashboardRoutes = [
     { path: '/user-groups', exact: true, component: ListUserGroups },
     { path: '/singletons', exact: true, component: ListSingletons },
     { path: '/singletons/create', exact: true, component: CreateSingleton },
-    { path: '/singletons/:id', exact: true, component: UpdateSingleton }
+    { path: '/singletons/:id', exact: true, component: UpdateSingleton },
+    { path: '/media', exact: false, component: ListMedia },
 ]
 
 const Login = React.lazy(() => import('./components/frontend/login/Login'))

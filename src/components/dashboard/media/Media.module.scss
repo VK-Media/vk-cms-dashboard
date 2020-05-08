@@ -1,0 +1,33 @@
+@import '../../../styles/variables';
+
+.media-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: $spacer;
+
+    &.directories {
+        margin-bottom: $spacer * 2;
+    }
+
+    .media {
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacer;
+        border-radius: 4px;
+        background-color: $white;
+        transition: background-color .25s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken($white, 10);
+        }
+
+        svg {
+            fill: $cobalt;
+            height: 25px;
+        }
+    }
+}
+

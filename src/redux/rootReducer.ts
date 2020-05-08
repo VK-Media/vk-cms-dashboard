@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import authenticationReducer from './authentication/authentication.reducer'
 import dashboardReducer from './dashboard/dashboard.reducer'
+import mediaReducer from './media/media.reducer'
 import notificationsReducer from './notifications/notifications.reducer'
 import singletonsReducer from './singletons/singletons.reducer'
 import userGroupsReducer from './userGroups/userGroups.reducer'
@@ -12,7 +13,8 @@ const reducer = combineReducers({
     notifications: notificationsReducer,
     singletons: singletonsReducer,
     userGroups: userGroupsReducer,
-    users: usersReducer
+    users: usersReducer,
+    media: mediaReducer
 })
 
 export default reducer

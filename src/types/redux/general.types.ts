@@ -1,3 +1,4 @@
+import { IMediaState } from '../media/media.types'
 import { IAuthenticationState } from './authentication.types'
 import { IDashboardState } from './dashboard.types'
 import { INotificationsState } from './notifications.types'
@@ -12,4 +13,5 @@ export interface IState {
     userGroups: IUserGroupsState
     notifications: INotificationsState,
     singletons: ISingletonsState
+    media: IMediaState
 }
