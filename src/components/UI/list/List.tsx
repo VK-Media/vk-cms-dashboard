@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { buttonTypes } from '../../../interfaces/button.interfaces'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
+import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
 import DefaultButton from '../buttons/DefaultButton'
 import TextButton from '../buttons/TextButton'
@@ -45,7 +46,7 @@ const List: React.FC<IListProps> = ({
     }
 ) => {
     const dispatch = useDispatch()
-    const [offset, setOffset] = useState(1)
+    const [offset, setOffset] = useState(limit)
     const items = useSelector((state: any) => state[type][type])
     const count = useSelector((state: any) => state[type]['count'])
 
@@ -73,7 +74,7 @@ const List: React.FC<IListProps> = ({
             offset,
             append: true
         }))
-        setOffset(offset + 1)
+        setOffset(offset + limit)
     }
 
     const renderListHeadings = () => {
@@ -161,6 +162,9 @@ const List: React.FC<IListProps> = ({
     const renderDeleteButton = (id: string) => {
         if (deleteItems && deleteItems.enable) {
             const label = deleteItems.label ?? 'Delete'
+            const updateList = count > items.length
+
+            console.log(updateList)
 
             return (
                 <TextButton
@@ -176,7 +180,10 @@ const List: React.FC<IListProps> = ({
                             heading: 'Success',
                             message: 'The item has been deleted',
                             type: NotificationTypes.SUCCESS
-                        }
+                        },
+                        fetchSuccessAction: fetchSingletonsSuccess,
+                        offset,
+                        updateList
                     }))}
                 />
             )

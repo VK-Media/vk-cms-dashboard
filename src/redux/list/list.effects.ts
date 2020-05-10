@@ -32,7 +32,7 @@ export const fetchListItems = (options: IFetchListArguments): ListEffect => asyn
 
 export const deleteItem = (options: IDeleteListItemArguments): ListEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
-    const { type, id, startAction, errorAction, successAction, successNofitifcation } = options
+    const { type, id, startAction, errorAction, successAction, successNofitifcation, offset, fetchSuccessAction, updateList } = options
 
     dispatch(startAction())
 
@@ -44,6 +44,18 @@ export const deleteItem = (options: IDeleteListItemArguments): ListEffect => asy
         if (response.status >= 200 && response.status < 300) {
             dispatch(successAction(response.data.id))
             dispatch(addNotification(successNofitifcation))
+
+            if (updateList) {
+                dispatch(fetchListItems({
+                    limit: 1,
+                    startAction,
+                    successAction: fetchSuccessAction,
+                    type,
+                    offset: offset - 1,
+                    errorAction,
+                    append: true
+                }))
+            }
         } else {
             dispatchErrorNotification(dispatch)
             dispatch(errorAction())

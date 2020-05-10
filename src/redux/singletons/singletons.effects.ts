@@ -1,6 +1,5 @@
 import { History } from 'history'
 import cmsApi from '../../apis/cms.api'
-import { IFetchListArguments } from '../../types/general.types'
 import { IState } from '../../types/redux/general.types'
 import { NotificationTypes } from '../../types/redux/notifications.types'
 import { ISingletonInput, SingletonsEffect } from '../../types/redux/singletons.types'
@@ -8,38 +7,10 @@ import { dispatchErrorNotification } from '../../utils/notification.utils'
 import { addNotification } from '../notifications/notifications.actions'
 import {
     createSingletonSucceeded,
-    fetchSingletonsSuccess,
     fetchSingletonSucceeded,
     singletonEffectError,
     startSingletonEffect
 } from './singletons.actions'
-
-export const fetchSingletons = (options: IFetchListArguments = {
-    limit: 10,
-    offset: 0,
-    append: false
-}): SingletonsEffect => async (dispatch, getState) => {
-    const currentState: IState = getState()
-    const { limit, offset } = options
-
-    dispatch(startSingletonEffect())
-
-    try {
-        const response = await cmsApi.get(`/singletons?limit=${limit}&offset=${offset}`, {
-            headers: { Authorization: `Bearer ${currentState.authentication.jwt}` }
-        })
-
-        if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchSingletonsSuccess(response.data.objects, response.data.count, options.append))
-        } else {
-            dispatchErrorNotification(dispatch)
-            dispatch(singletonEffectError())
-        }
-    } catch (error) {
-        dispatchErrorNotification(dispatch)
-        dispatch(singletonEffectError())
-    }
-}
 
 export const fetchSingleton = (id: string): SingletonsEffect => async (dispatch, getState) => {
     const currentState: IState = getState()

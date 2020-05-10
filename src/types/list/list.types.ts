@@ -18,7 +18,10 @@ export interface IDeleteListItemArguments {
     startAction: CallableFunction
     errorAction: CallableFunction
     successAction: CallableFunction
+    fetchSuccessAction: CallableFunction
+    offset: number
     successNofitifcation: INotificationInput
+    updateList: boolean
 }
 
 export type ListEffect = ThunkAction<any, IState, any, any>
