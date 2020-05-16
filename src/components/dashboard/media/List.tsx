@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Alert from 'react-bootstrap/Alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, RouteComponentProps } from 'react-router-dom'
 import { ReactComponent as DefaultFileIcon } from '../../../icons/file-alt.svg'
@@ -70,6 +71,12 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
         return values
     }
 
+    const rightClickMedia = (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>, item: IMedia) => {
+        event.preventDefault()
+
+        console.log(item)
+    }
+
     const renderMedia = (values: IMedia[]) => {
         if (values.length) {
             values = getSortedMedia(values)
@@ -80,7 +87,8 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
                     const linkParts = ['/media', pathname, item.name].filter(el => !!el)
 
                     return (
-                        <NavLink key={item.name} className={styles.media} to={linkParts.join('/')}>
+                        <NavLink onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
+                                 className={styles.media} to={linkParts.join('/')}>
                             <span>{item.name}</span>
                             {icon}
                         </NavLink>
@@ -92,7 +100,8 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
                         icon = fileTypeIcons[item.extension]
                     }
 
-                    return <div key={item.name} className={styles.media}><span>{item.name}</span>{icon}</div>
+                    return <div onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
+                                className={styles.media}><span>{item.name}</span>{icon}</div>
                 }
 
                 return null
@@ -119,13 +128,42 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
             return <div className={styles['media-container']}>{files}</div>
         }
 
-        return null
+        return <Alert variant="info">There are currently no files in this folder...</Alert>
+    }
+
+    const renderBreadCrumb = () => {
+        const links: any = []
+        const pathParts = location.pathname.split('/').filter(part => part)
+
+        for (let i = 0; i < pathParts.length; i++) {
+            const name = i === 0 ? 'Home' : pathParts[i]
+            links.push({ name, path: `/${pathParts.slice(0, i + 1).join('/')}` })
+        }
+
+        const renderItems = () => {
+            return links.map((item: any) => {
+                return (
+                    <li key={item.path} className="breadcrumb-item">
+                        <NavLink to={item.path} exact={true}>{item.name}</NavLink>
+                    </li>
+                )
+            })
+        }
+
+        return (
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    {renderItems()}
+                </ol>
+            </nav>
+        )
     }
 
     return (
         <>
             <h1>Media</h1>
 
+            {renderBreadCrumb()}
             {renderFolders()}
             {renderFiles()}
         </>
