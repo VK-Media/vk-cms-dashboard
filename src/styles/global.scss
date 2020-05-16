@@ -1,0 +1,27 @@
+// Colors
+$light-grey: #f2f2f2;
+$dark-grey: darkGrey;
+$red: #e84a5f;
+$white: #ffffff;
+$black: #0d0d0d;
+$cobalt: #34495e;
+$purple: #9b59b6;
+$blue: #3498db;
+$green: #27af61;
+$yellow: #ffc107;
+$turquoise: #1abc9c;
+
+// Sizes
+$spacer: 20px;
+$navigation-width: 60px;
+$navigation-width-expanded: 250px;
+$notificationHeight: 75px;
+
+// Misc
+$border-radius: 4px;
+
+// Mixins
+@mixin gridLayout {
+    display: grid;
+    padding: $spacer;
+}

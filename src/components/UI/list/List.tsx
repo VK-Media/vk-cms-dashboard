@@ -1,11 +1,9 @@
+import Button, { buttonFontSizes, buttonTypes, buttonVariants } from '@bit/vk-media.cms.button'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { buttonTypes } from '../../../interfaces/button.interfaces'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
 import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
-import DefaultButton from '../buttons/DefaultButton'
-import TextButton from '../buttons/TextButton'
 import styles from './List.module.scss'
 
 interface IColumn {
@@ -126,9 +124,9 @@ const List: React.FC<IListProps> = ({
     const renderNewButton = () => {
         if (createItems && createItems.enable) {
             return (
-                <DefaultButton
+                <Button
                     text={createItems.label ?? 'Create New'}
-                    type={buttonTypes.SUCCESS}
+                    variant={buttonVariants.SUCCESS}
                     href={`/${typeUrl}/create`}
                 />
             )
@@ -147,10 +145,12 @@ const List: React.FC<IListProps> = ({
             }
 
             return (
-                <TextButton
+                <Button
                     text={label}
                     space={space}
-                    type={buttonTypes.PRIMARY}
+                    type={buttonTypes.TEXT}
+                    fontSize={buttonFontSizes.MEDIUM}
+                    variant={buttonVariants.PRIMARY}
                     href={`/${typeUrl}/${id}`}
                 />
             )
@@ -164,12 +164,12 @@ const List: React.FC<IListProps> = ({
             const label = deleteItems.label ?? 'Delete'
             const updateList = count > items.length
 
-            console.log(updateList)
-
             return (
-                <TextButton
+                <Button
                     text={label}
-                    type={buttonTypes.ERROR}
+                    type={buttonTypes.TEXT}
+                    variant={buttonVariants.ERROR}
+                    fontSize={buttonFontSizes.MEDIUM}
                     onClick={() => dispatch(deleteItem({
                         id,
                         type,
@@ -196,7 +196,8 @@ const List: React.FC<IListProps> = ({
         if (count > items.length) {
             return (
                 <div className={styles['show-more']}>
-                    <TextButton text="Show more" type={buttonTypes.PRIMARY} onClick={clickShowMore}/>
+                    <Button text="Show more" type={buttonTypes.TEXT} variant={buttonVariants.PRIMARY}
+                            onClick={clickShowMore}/>
                 </div>
             )
         }

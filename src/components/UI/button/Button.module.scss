@@ -1,0 +1,80 @@
+@import '~@bit/vk-media.cms.style.global';
+
+$fontSizes: ("sm": 14px, "md": 16px, "lg": 18px);
+
+$variants: (
+    "default": $dark-grey,
+    "primary": $blue,
+    "success": $green,
+    "error": $red
+);
+
+.button {
+    border: none;
+    -webkit-appearance: none;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    @each $name, $size in $fontSizes {
+        &.font-size-#{$name} {
+            font-size: $size;
+        }
+    }
+
+    @for $i from 1 through 3 {
+        &.space-top-#{$i} {
+            margin-top: calc(#{$i} * 10px);
+        }
+
+        &.space-right-#{$i} {
+            margin-right: calc(#{$i} * 10px);
+        }
+
+        &.space-bottom-#{$i} {
+            margin-bottom: calc(#{$i} * 10px);
+        }
+
+        &.space-left-#{$i} {
+            margin-left: calc(#{$i} * 10px);
+        }
+    }
+
+    &.type-default {
+        border-radius: $border-radius;
+        color: $white;
+        padding: 0 $spacer * .5;
+        height: $spacer * 1.5;
+        transition: background-color .4s;
+        display: flex;
+        align-items: center;
+
+        @each $name, $color in $variants {
+            &.variant-#{$name} {
+                background-color: $color;
+
+                &:hover {
+                    background-color: darken($color, 10);
+                }
+            }
+        }
+    }
+
+    &.type-text {
+        transition: color .4s;
+
+        @each $name, $color in $variants {
+            &.variant-#{$name} {
+                color: $color;
+
+                &:hover {
+                    color: darken($color, 10);
+                }
+            }
+        }
+    }
+}

@@ -49,6 +49,11 @@
             margin-bottom: $spacer;
         }
 
+        > div {
+            display: flex;
+            align-items: center;
+        }
+
         .controls {
             display: flex;
             justify-content: flex-end;
