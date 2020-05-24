@@ -1,8 +1,11 @@
 import React from 'react'
+import { useTranslation } from '../../../localization'
 
 const ListUserGroups: React.FC = () => {
+    const { t } = useTranslation()
+
     return (
-        <div>User groups</div>
+        <div>{t('User Groups')}</div>
     )
 }
 

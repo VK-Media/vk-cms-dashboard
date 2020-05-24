@@ -1,3 +1,4 @@
+import { ILanguageState } from '../language/language.types'
 import { IMediaState } from '../media/media.types'
 import { IAuthenticationState } from './authentication.types'
 import { IDashboardState } from './dashboard.types'
@@ -11,7 +12,8 @@ export interface IState {
     dashboard: IDashboardState
     users: IUsersState
     userGroups: IUserGroupsState
-    notifications: INotificationsState,
+    notifications: INotificationsState
     singletons: ISingletonsState
     media: IMediaState
+    language: ILanguageState
 }

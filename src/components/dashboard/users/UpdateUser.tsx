@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, Item } from 'vk-grid'
+import { useTranslation } from '../../../localization'
 import { fetchUserGroups } from '../../../redux/userGroups/userGroups.effects'
 import { fetchSingleUser, updateUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
@@ -23,6 +24,7 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
     const loading = useSelector((state: IState) => state.users.loading)
     const userToUpdate = useSelector((state: IState) => state.users.userToUpdate)
     const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
+    const { t } = useTranslation()
     const initialSelectedUserGroups: string[] = []
 
     const [firstName, setFirstName] = useState('')
@@ -122,12 +124,12 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
 
             <Form onSubmit={submitHandler}>
                 <Widget>
-                    <Widget.Heading text="Personal Information"/>
+                    <Widget.Heading text={t('Personal Information')}/>
 
                     <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>First Name</Form.Label>
+                                <Form.Label>{t('First Name')}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={firstName}
@@ -137,7 +139,7 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                         </Item>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>Last Name</Form.Label>
+                                <Form.Label>{t('Last Name')}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={lastName}
@@ -150,7 +152,7 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                     <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>Email address</Form.Label>
+                                <Form.Label>{t('Email Address')}</Form.Label>
                                 <Form.Control
                                     type="email"
                                     value={email}
@@ -162,19 +164,19 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                 </Widget>
 
                 <Widget>
-                    <Widget.Heading text="Settings"/>
+                    <Widget.Heading text={t('Settings')}/>
 
                     <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>Language</Form.Label>
+                                <Form.Label>{t('Language')}</Form.Label>
                                 <Form.Control
                                     as="select"
                                     value={language}
                                     onChange={(e: any) => setLanguage(e.target.value)}
                                 >
-                                    <option value={Languages.ENGLISH}>English</option>
-                                    <option value={Languages.DANISH}>Danish</option>
+                                    <option value={Languages.ENGLISH}>{t('English')}</option>
+                                    <option value={Languages.DANISH}>{t('Danish')}</option>
                                 </Form.Control>
                             </Form.Group>
                         </Item>
@@ -182,7 +184,7 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                 </Widget>
 
                 <Widget>
-                    <Widget.Heading text="User Groups"/>
+                    <Widget.Heading text={t('User Groups')}/>
 
                     <Container space={1}>
                         <Item lg={6}>
@@ -193,7 +195,7 @@ const UpdateUser: React.FC<ICreateUserProps> = ({ match }) => {
                     </Container>
                 </Widget>
 
-                <Button variant="primary" type="submit">Update</Button>
+                <Button variant="primary" type="submit">{t('Update')}</Button>
                 {renderLoader()}
             </Form>
         </>

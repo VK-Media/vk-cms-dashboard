@@ -13,6 +13,7 @@ import { ReactComponent as PowerpointFileIcon } from '../../../icons/file-powerp
 import { ReactComponent as VideoFileIcon } from '../../../icons/file-video.svg'
 import { ReactComponent as WordFileIcon } from '../../../icons/file-word.svg'
 import { ReactComponent as FolderIcon } from '../../../icons/folder-open.svg'
+import { useTranslation } from '../../../localization'
 import { fetchMediaItems } from '../../../redux/media/media.effects'
 import { IMedia } from '../../../types/media/media.types'
 import { IState } from '../../../types/redux/general.types'
@@ -21,6 +22,7 @@ import styles from './Media.module.scss'
 const List: React.FC<RouteComponentProps> = ({ location }) => {
     const dispatch = useDispatch()
     const media = useSelector((state: IState) => state.media.media)
+    const { t } = useTranslation()
     const pathname = location.pathname !== '/media' ? location.pathname.replace('/media/', '') : ''
 
     useEffect(() => {
@@ -84,11 +86,13 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
             return values.map((item: IMedia) => {
                 if (item.directory) {
                     const icon = <FolderIcon/>
-                    const linkParts = ['/media', pathname, item.name].filter(el => !!el)
+                    const linkParts = [t('/media'), pathname, item.name].filter(el => !!el)
 
                     return (
-                        <NavLink onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
-                                 className={styles.media} to={linkParts.join('/')}>
+                        <NavLink
+                            onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
+                            className={styles.media} to={linkParts.join('/')}
+                        >
                             <span>{item.name}</span>
                             {icon}
                         </NavLink>
@@ -100,8 +104,10 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
                         icon = fileTypeIcons[item.extension]
                     }
 
-                    return <div onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
-                                className={styles.media}><span>{item.name}</span>{icon}</div>
+                    return <div
+                        onContextMenu={(event) => rightClickMedia(event, item)} key={item.name}
+                        className={styles.media}
+                    ><span>{item.name}</span>{icon}</div>
                 }
 
                 return null
@@ -128,7 +134,7 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
             return <div className={styles['media-container']}>{files}</div>
         }
 
-        return <Alert variant="info">There are currently no files in this folder...</Alert>
+        return <Alert variant="info">{t('There are currently no files in this folder...')}</Alert>
     }
 
     const renderBreadCrumb = () => {
@@ -136,7 +142,7 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
         const pathParts = location.pathname.split('/').filter(part => part)
 
         for (let i = 0; i < pathParts.length; i++) {
-            const name = i === 0 ? 'Home' : pathParts[i]
+            const name = i === 0 ? t('Home') : pathParts[i]
             links.push({ name, path: `/${pathParts.slice(0, i + 1).join('/')}` })
         }
 
@@ -161,7 +167,7 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
 
     return (
         <>
-            <h1>Media</h1>
+            <h1>{t('Media')}</h1>
 
             {renderBreadCrumb()}
             {renderFolders()}

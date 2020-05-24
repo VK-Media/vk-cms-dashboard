@@ -1,9 +1,12 @@
 import React from 'react'
+import { useTranslation } from '../../../localization'
 
 const Home = () => {
+    const { t } = useTranslation()
+
     return (
         <>
-            <h1>Dashboard</h1>
+            <h1>{t('Dashboard')}</h1>
         </>
     )
 }

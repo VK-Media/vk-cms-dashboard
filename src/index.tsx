@@ -1,17 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './components/App'
+import './index.scss'
+import ProviderWrapper from './redux/ProviderWrapper'
 import * as serviceWorker from './serviceWorker'
 
-import App from './components/App'
-import ProviderWrapper from './redux/ProviderWrapper'
-
-import './index.scss'
-
 ReactDOM.render(
-	<ProviderWrapper>
-		<App />
-	</ProviderWrapper>,
-	document.getElementById('root')
+    <ProviderWrapper>
+        <App/>
+    </ProviderWrapper>,
+    document.getElementById('root')
 )
 
 // If you want your app to work offline and load faster, you can change
