@@ -1,6 +1,7 @@
 import Button, { buttonFontSizes, buttonTypes, buttonVariants } from '@bit/vk-media.cms.button'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from '../../../localization'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
 import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
@@ -47,6 +48,7 @@ const List: React.FC<IListProps> = ({
     const [offset, setOffset] = useState(limit)
     const items = useSelector((state: any) => state[type][type])
     const count = useSelector((state: any) => state[type]['count'])
+    const { t } = useTranslation()
 
     useEffect(() => {
         dispatch(fetchListItems({
@@ -125,9 +127,9 @@ const List: React.FC<IListProps> = ({
         if (createItems && createItems.enable) {
             return (
                 <Button
-                    text={createItems.label ?? 'Create New'}
+                    text={createItems.label ?? t('Create New')}
                     variant={buttonVariants.SUCCESS}
-                    href={`/${typeUrl}/create`}
+                    href={t(`/${typeUrl}/create`)}
                 />
             )
         }
@@ -138,7 +140,7 @@ const List: React.FC<IListProps> = ({
     const renderEditButton = (id: string) => {
         if (editItems && editItems.enable) {
             let space = {}
-            const label = editItems.label ?? 'Edit'
+            const label = editItems.label ?? t('Edit')
 
             if (deleteItems && deleteItems.enable) {
                 space = { right: 1 }
@@ -161,7 +163,7 @@ const List: React.FC<IListProps> = ({
 
     const renderDeleteButton = (id: string) => {
         if (deleteItems && deleteItems.enable) {
-            const label = deleteItems.label ?? 'Delete'
+            const label = deleteItems.label ?? t('Delete')
             const updateList = count > items.length
 
             return (
@@ -177,8 +179,8 @@ const List: React.FC<IListProps> = ({
                         errorAction,
                         successAction: deleteSuccessAction,
                         successNofitifcation: {
-                            heading: 'Success',
-                            message: 'The item has been deleted',
+                            heading: t('Success'),
+                            message: t('The item has been deleted'),
                             type: NotificationTypes.SUCCESS
                         },
                         fetchSuccessAction: fetchSingletonsSuccess,
@@ -196,8 +198,10 @@ const List: React.FC<IListProps> = ({
         if (count > items.length) {
             return (
                 <div className={styles['show-more']}>
-                    <Button text="Show more" type={buttonTypes.TEXT} variant={buttonVariants.PRIMARY}
-                            onClick={clickShowMore}/>
+                    <Button
+                        text={t('Show more')} type={buttonTypes.TEXT} variant={buttonVariants.PRIMARY}
+                        onClick={clickShowMore}
+                    />
                 </div>
             )
         }
@@ -209,8 +213,8 @@ const List: React.FC<IListProps> = ({
         <div className={styles.list}>
             <div className={styles.heading}>
                 <div>
-                    <h1>{heading ?? 'List'}</h1>
-                    <div>{count} total</div>
+                    <h1>{heading ?? t('List')}</h1>
+                    <div>{count} {t('total')}</div>
                 </div>
                 {renderNewButton()}
             </div>

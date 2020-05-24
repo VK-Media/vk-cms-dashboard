@@ -9,7 +9,15 @@
 
     "Name": "Name",
     "Create": "Create",
+    "Create New": "Create New",
     "Update": "Update",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Success": "Success",
+    "The item has been deleted": "The item has been deleted",
+    "Show more": "Show more",
+    "List": "List",
+    "total": "total",
 
     "Home": "Home",
     "There are currently no files in this folder...": "There are currently no files in this folder...",
@@ -30,6 +38,7 @@
     "Danish": "Danish",
 
     "/dashboard": "/dashboard",
+    "/collections": "/collections",
     "/users": "/users",
     "/users/create": "/users/create",
     "/users/:id": "/users/:id",
@@ -38,6 +47,7 @@
     "/singletons/create": "/singletons/create",
     "/singletons/:id": "/singletons/:id",
     "/media": "/media",
+    "/settings": "/settings",
 
     "/login": "/login",
 
