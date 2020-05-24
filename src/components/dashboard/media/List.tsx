@@ -23,7 +23,7 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
     const dispatch = useDispatch()
     const media = useSelector((state: IState) => state.media.media)
     const { t } = useTranslation()
-    const pathname = location.pathname !== '/media' ? location.pathname.replace('/media/', '') : ''
+    const pathname = location.pathname !== t('/media') ? location.pathname.replace(`${t('/media')}/`, '') : ''
 
     useEffect(() => {
         dispatch(fetchMediaItems(pathname))

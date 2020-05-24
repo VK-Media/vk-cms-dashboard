@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import avatar from '../../../../avatars/rlvk.jpeg'
 import { ReactComponent as SettingsIcon } from '../../../../icons/cog.svg'
 import { ReactComponent as SingletonsIcon } from '../../../../icons/gem.svg'
@@ -13,16 +13,17 @@ import { toggleMenu } from '../../../../redux/dashboard/dashboard.actions'
 import styles from '../DashboardLayout.module.scss'
 import NavigationLink from './NavLink/NavigationLink'
 
-interface IDashboardNavigationProps {
-    toggleMenu(): void
-}
-
-const DashboardNavigation: React.FC<IDashboardNavigationProps> = ({ toggleMenu }) => {
+const DashboardNavigation: React.FC = () => {
+    const dispatch = useDispatch()
     const { t } = useTranslation()
+
+    const handleNavigationToggle = () => {
+        dispatch(toggleMenu())
+    }
 
     return (
         <aside className={styles['dashboard-navigation']}>
-            <div className={styles['toggle-menu']} onClick={toggleMenu}><span/><span/><span/></div>
+            <div className={styles['toggle-menu']} onClick={handleNavigationToggle}><span/><span/><span/></div>
 
             <nav>
                 <NavigationLink iconComponent={<DashboardIcon/>} title={t('Dashboard')} url={t('/dashboard')}/>
@@ -39,4 +40,4 @@ const DashboardNavigation: React.FC<IDashboardNavigationProps> = ({ toggleMenu }
     )
 }
 
-export default connect(null, { toggleMenu })(DashboardNavigation)
+export default DashboardNavigation

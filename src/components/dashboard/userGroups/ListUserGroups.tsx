@@ -5,7 +5,9 @@ const ListUserGroups: React.FC = () => {
     const { t } = useTranslation()
 
     return (
-        <div>{t('User Groups')}</div>
+        <>
+            <h1>{t('User Groups')}</h1>
+        </>
     )
 }
 

@@ -19,7 +19,7 @@ export const useTranslation = () => {
             }
 
             if (process.env.NODE_ENV === 'development') {
-                console.warn(`No translation key: "${key}", in language: ${language}`)
+                console.warn(`No translation key: "${key}", in language: "${language}"`)
             }
 
             return key
