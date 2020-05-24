@@ -8,6 +8,7 @@ import { ReactComponent as MediaIcon } from '../../../../icons/photo-video.svg'
 import { ReactComponent as DashboardIcon } from '../../../../icons/tachometer-fast.svg'
 import { ReactComponent as UserGroupsIcon } from '../../../../icons/user-lock.svg'
 import { ReactComponent as UsersIcon } from '../../../../icons/users.svg'
+import { useTranslation } from '../../../../localization'
 import { toggleMenu } from '../../../../redux/dashboard/dashboard.actions'
 import styles from '../DashboardLayout.module.scss'
 import NavigationLink from './NavLink/NavigationLink'
@@ -17,18 +18,20 @@ interface IDashboardNavigationProps {
 }
 
 const DashboardNavigation: React.FC<IDashboardNavigationProps> = ({ toggleMenu }) => {
+    const { t } = useTranslation()
+
     return (
         <aside className={styles['dashboard-navigation']}>
             <div className={styles['toggle-menu']} onClick={toggleMenu}><span/><span/><span/></div>
 
             <nav>
-                <NavigationLink iconComponent={<DashboardIcon/>} title="Dashboard" url="/dashboard"/>
-                <NavigationLink iconComponent={<MediaIcon/>} title="Media" url="/media"/>
-                <NavigationLink iconComponent={<CollectionsIcon/>} title="Collections" url="/collections"/>
-                <NavigationLink iconComponent={<SingletonsIcon/>} title="Singletons" url="/singletons"/>
-                <NavigationLink iconComponent={<UsersIcon/>} title="Users" url="/users"/>
-                <NavigationLink iconComponent={<UserGroupsIcon/>} title="User Groups" url="/user-groups"/>
-                <NavigationLink iconComponent={<SettingsIcon/>} title="Settings" url="/settings"/>
+                <NavigationLink iconComponent={<DashboardIcon/>} title={t('Dashboard')} url={t('/dashboard')}/>
+                <NavigationLink iconComponent={<MediaIcon/>} title={t('Media')} url={t('/media')}/>
+                <NavigationLink iconComponent={<CollectionsIcon/>} title={t('Collections')} url={t('/collections')}/>
+                <NavigationLink iconComponent={<SingletonsIcon/>} title={t('Singletons')} url={t('/singletons')}/>
+                <NavigationLink iconComponent={<UsersIcon/>} title={t('Users')} url={t('/users')}/>
+                <NavigationLink iconComponent={<UserGroupsIcon/>} title={t('User Groups')} url={t('/user-groups')}/>
+                <NavigationLink iconComponent={<SettingsIcon/>} title={t('Settings')} url={t('/settings')}/>
             </nav>
 
             <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})` }}/>

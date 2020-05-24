@@ -2,7 +2,7 @@ import produce from 'immer'
 import { ILanguageState, LanguageAction, languages } from '../../types/language/language.types'
 
 export const initialState: ILanguageState = {
-    language: languages.ENGLISH
+    language: languages.DANISH
 }
 
 const reducer = (state = initialState, action: LanguageAction) => {

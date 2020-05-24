@@ -14,8 +14,12 @@ export const useTranslation = () => {
 
     return {
         t: (key: string): string => {
-            if(translations.hasOwnProperty(key)){
+            if (translations.hasOwnProperty(key)) {
                 return translations[key]
+            }
+
+            if (process.env.NODE_ENV === 'development') {
+                console.warn(`No translation key: "${key}", in language: ${language}`)
             }
 
             return key
