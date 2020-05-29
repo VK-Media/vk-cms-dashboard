@@ -13,7 +13,7 @@ import { ReactComponent as PowerpointFileIcon } from '../../../icons/file-powerp
 import { ReactComponent as VideoFileIcon } from '../../../icons/file-video.svg'
 import { ReactComponent as WordFileIcon } from '../../../icons/file-word.svg'
 import { ReactComponent as FolderIcon } from '../../../icons/folder-open.svg'
-import { useTranslation } from '../../../localization'
+import { useTranslation } from 'vk-i18n'
 import { fetchMediaItems } from '../../../redux/media/media.effects'
 import { IMedia } from '../../../types/media/media.types'
 import { IState } from '../../../types/redux/general.types'

@@ -4,6 +4,7 @@ import App from './components/App'
 import './index.scss'
 import ProviderWrapper from './redux/ProviderWrapper'
 import * as serviceWorker from './serviceWorker'
+import './i18n'
 
 ReactDOM.render(
     <ProviderWrapper>

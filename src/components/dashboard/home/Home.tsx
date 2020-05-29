@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from '../../../localization'
+import { useTranslation } from 'vk-i18n'
 
 const Home = () => {
     const { t } = useTranslation()

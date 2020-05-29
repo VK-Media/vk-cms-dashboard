@@ -1,7 +1,7 @@
 import Button, { buttonFontSizes, buttonTypes, buttonVariants } from '@bit/vk-media.cms.button'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTranslation } from '../../../localization'
+import { useTranslation } from 'vk-i18n'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
 import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'

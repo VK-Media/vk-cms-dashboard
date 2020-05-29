@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
-import { useTranslation } from '../../../localization'
+import { useTranslation } from 'vk-i18n'
 import { login } from '../../../redux/authentication/authentication.effects'
 import { IState } from '../../../types/redux/general.types'
 
