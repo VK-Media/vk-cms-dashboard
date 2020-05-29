@@ -19,7 +19,7 @@ export const dashboardRoutes = [
     { path: '/singletons', exact: true, component: ListSingletons },
     { path: '/singletons/create', exact: true, component: CreateSingleton },
     { path: '/singletons/:id', exact: true, component: UpdateSingleton },
-    { path: '/media', exact: false, component: ListMedia },
+    { path: '/media', exact: false, component: ListMedia }
 ]
 
 const Login = React.lazy(() => import('./components/frontend/login/Login'))

@@ -1,8 +1,13 @@
 import React from 'react'
+import { useTranslation } from 'vk-i18n'
 
 const ListUsers: React.FC = () => {
+    const { t } = useTranslation()
+
     return (
-        <div>Users</div>
+        <>
+            <h1>{t('Users')}</h1>
+        </>
     )
 }
 

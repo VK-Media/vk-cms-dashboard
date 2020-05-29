@@ -5,6 +5,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { match, RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { useTranslation } from 'vk-i18n'
 import { fetchSingleton, updateSingleton } from '../../../redux/singletons/singletons.effects'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
@@ -22,6 +23,7 @@ const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) =>
     const singletonToUpdate = useSelector((state: IState) => state.singletons.singletonToUpdate)
     const loading = useSelector((state: IState) => state.singletons.loading)
     const [name, setName] = useState('')
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (match && match.params.id) {
@@ -59,16 +61,16 @@ const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) =>
 
     return (
         <>
-            <h1>Update Singleton</h1>
+            <h1>{t('Update Singleton')}</h1>
 
             <Form onSubmit={submitHandler}>
                 <Widget>
-                    <Widget.Heading text="General"/>
+                    <Widget.Heading text={t('General')}/>
 
                     <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>Name</Form.Label>
+                                <Form.Label>{t('Name')}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={name}
@@ -80,7 +82,7 @@ const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) =>
                 </Widget>
 
                 <Container>
-                    <Button variant="primary" type="submit">Update</Button>
+                    <Button variant="primary" type="submit">{t('Update')}</Button>
                     {renderLoader()}
                 </Container>
             </Form>

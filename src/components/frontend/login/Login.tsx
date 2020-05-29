@@ -6,6 +6,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { useTranslation } from 'vk-i18n'
 import { login } from '../../../redux/authentication/authentication.effects'
 import { IState } from '../../../types/redux/general.types'
 
@@ -16,6 +17,7 @@ const Login: React.FC = () => {
     const loading = useSelector((state: IState) => state.authentication.loading)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { t } = useTranslation()
 
     const submitHandler = (e: any) => {
         e.preventDefault()
@@ -27,7 +29,7 @@ const Login: React.FC = () => {
             return (
                 <Container>
                     <Item xl={{ span: 4, offset: 4 }}>
-                        <Alert variant="danger">The entered information is incorrect</Alert>
+                        <Alert variant="danger">{t('The entered information is incorrect')}</Alert>
                     </Item>
                 </Container>
             )
@@ -49,12 +51,12 @@ const Login: React.FC = () => {
             <>
                 <Container>
                     <Item xl={{ span: 4, offset: 4 }}>
-                        <h1 className="mt-5">Login</h1>
+                        <h1 className="mt-5">{t('Login')}</h1>
                     </Item>
                 </Container>
                 <Container>
                     <Item xl={{ span: 4, offset: 4 }}>
-                        <Alert variant="info">Login to the dashboard by filling out the form below</Alert>
+                        <Alert variant="info">{t('Login to the dashboard by filling out the form below')}</Alert>
                     </Item>
                 </Container>
                 {renderErrorMessage()}
@@ -62,24 +64,24 @@ const Login: React.FC = () => {
                     <Item xl={{ span: 4, offset: 4 }}>
                         <Form onSubmit={submitHandler}>
                             <Form.Group controlId="formGroupEmail">
-                                <Form.Label>Email address</Form.Label>
+                                <Form.Label>{t('Email Address')}</Form.Label>
                                 <Form.Control
                                     type="email"
-                                    placeholder="Enter email"
+                                    placeholder={t('Enter email')}
                                     value={email}
                                     onChange={(e: any) => setEmail(e.target.value)}
                                 />
                             </Form.Group>
                             <Form.Group controlId="formGroupPassword">
-                                <Form.Label>Password</Form.Label>
+                                <Form.Label>{t('Password')}</Form.Label>
                                 <Form.Control
                                     type="password"
-                                    placeholder="Password"
+                                    placeholder={t('Password')}
                                     value={password}
                                     onChange={(e: any) => setPassword(e.target.value)}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit">Login</Button>
+                            <Button variant="primary" type="submit">{t('Login')}</Button>
                             {renderLoader()}
                         </Form>
                     </Item>
@@ -88,7 +90,7 @@ const Login: React.FC = () => {
         )
     }
 
-    return jwt ? <Redirect to={'/dashboard'}/> : renderLoginForm()
+    return jwt ? <Redirect to={t('/dashboard')}/> : renderLoginForm()
 }
 
 export default Login

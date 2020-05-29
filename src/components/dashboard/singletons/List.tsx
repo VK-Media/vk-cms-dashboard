@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'vk-i18n'
 import {
     deleteSingletonSuccess,
     fetchSingletonsSuccess,
@@ -8,11 +9,13 @@ import {
 import List from '../../UI/list/List'
 
 const ListSingletons: React.FC = () => {
+    const { t } = useTranslation()
+
     return (
         <List
-            heading="Singletons"
-            createItems={{ enable: true, label: 'Create Singleton' }}
-            columns={[{ heading: 'Name', fields: ['name'] }]}
+            heading={t('Singletons')}
+            createItems={{ enable: true, label: t('Create Singleton') }}
+            columns={[{ heading: t('Name'), fields: ['name'] }]}
             type="singletons"
             actions={{
                 startAction: startSingletonEffect,

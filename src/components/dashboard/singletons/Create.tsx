@@ -5,6 +5,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { useTranslation } from 'vk-i18n'
 import { createSingleton } from '../../../redux/singletons/singletons.effects'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
@@ -12,6 +13,7 @@ import Widget from '../../UI/widget/Widget'
 const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch()
     const loading = useSelector((state: IState) => state.singletons.loading)
+    const { t } = useTranslation()
 
     const [name, setName] = useState('')
 
@@ -32,16 +34,16 @@ const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <>
-            <h1>Create New Singleton</h1>
+            <h1>{t('Create New Singleton')}</h1>
 
             <Form onSubmit={submitHandler}>
                 <Widget>
-                    <Widget.Heading text="General"/>
+                    <Widget.Heading text={t('General')}/>
 
                     <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>Name</Form.Label>
+                                <Form.Label>{t('Name')}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={name}
@@ -52,7 +54,7 @@ const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
                     </Container>
                 </Widget>
 
-                <Button variant="primary" type="submit">Create</Button>
+                <Button variant="primary" type="submit">{t('Create')}</Button>
                 {renderLoader()}
             </Form>
         </>

@@ -1,0 +1,58 @@
+{
+    "Dashboard": "Kontrolpanel",
+    "Media": "Medier",
+    "Collections": "Samlinger",
+    "Singletons": "Singletons",
+    "Users": "Brugere",
+    "User Groups": "Brugergrupper",
+    "Settings": "Indstillinger",
+
+    "Name": "Navn",
+    "Create": "Opret",
+    "Create New": "Opret ny",
+    "Update": "Opdater",
+    "Edit": "Rediger",
+    "Delete": "Slet",
+    "Success": "Sucess",
+    "The item has been deleted": "Elementet er blevet slettet",
+    "Show more": "Vis flere",
+    "List": "Liste",
+    "total": "total",
+
+    "Home": "Hjem",
+    "There are currently no files in this folder...": "Der er på nuværende tidspunkt ingen filer i denne mappe...",
+
+    "Create Singleton": "Opret singleton",
+    "Create New Singleton": "Opret ny singleton",
+    "General": "Generelt",
+    "Update Singleton": "Opdater singleton",
+
+    "Create New User": "Opret ny bruger",
+    "Personal Information": "Personlig information",
+    "First Name": "Fornavn",
+    "Last Name": "Efternavn",
+    "Email Address": "E-mail adresse",
+    "Password": "Kodeord",
+    "Language": "Sprog",
+    "English": "Engelsk",
+    "Danish": "Dansk",
+
+    "/dashboard": "/kontrolpanel",
+    "/collections": "/samlinger",
+    "/users": "/brugere",
+    "/users/create": "/brugere/opret",
+    "/users/:id": "/brugere/:id",
+    "/user-groups": "/brugergrupper",
+    "/singletons": "/singletons",
+    "/singletons/create": "/singletons/opret",
+    "/singletons/:id": "/singletons/:id",
+    "/media": "/medier",
+    "/settings": "/indstillinger",
+
+    "/login": "/log-ind",
+
+    "The entered information is incorrect": "De indtastede oplysinger er ikke korrekte",
+    "Login": "Log ind",
+    "Login to the dashboard by filling out the form below": "Log ind i kontrolpanelet ved at udfylde formularen herunder",
+    "Enter email": "Indtast e-mail"
+}
