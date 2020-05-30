@@ -1,5 +1,4 @@
-import { initialize } from 'vk-i18n'
-import { languages } from 'vk-i18n/lib/types/i18n.types'
+import { initialize, languages } from 'vk-i18n'
 import danish from './translations/da.json'
 import english from './translations/en.json'
 
