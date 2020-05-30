@@ -1,6 +1,11 @@
 {
 	"name": "vk-cms-dashboard",
 	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/VK-Media/vk-cms-dashboard"
+	},
+	"license": "MIT",
 	"dependencies": {
 		"@bit/vk-media.cms.button": "^1.1.0",
 		"axios": "^0.19.2",
