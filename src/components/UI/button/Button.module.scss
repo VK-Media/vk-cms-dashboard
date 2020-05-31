@@ -66,6 +66,7 @@ $variants: (
 
     &.type-text {
         transition: color .4s;
+        background-color: transparent;
 
         @each $name, $color in $variants {
             &.variant-#{$name} {
