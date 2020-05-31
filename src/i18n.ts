@@ -1,11 +1,39 @@
-import { initialize, languages } from 'vk-i18n'
-import danish from './translations/da.json'
-import english from './translations/en.json'
+import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
+import { initReactI18next } from 'react-i18next'
 
-initialize({
-    translations: {
-        "en-US": english,
-        "da-DK": danish
-    },
-    fallbackLanguage: languages.ENGLISH
-})
+i18n
+    // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
+    // learn more: https://github.com/i18next/i18next-http-backend
+    .use(Backend)
+    // detect user language
+    // learn more: https://github.com/i18next/i18next-browser-languageDetector
+    .use(LanguageDetector)
+    // pass the i18n instance to react-i18next.
+    .use(initReactI18next)
+    // init i18next
+    // for all options read: https://www.i18next.com/overview/configuration-options
+    .init({
+        backend: {
+            loadPath: '/translations/{{lng}}.json'
+        },
+        fallbackLng: false,
+        debug: process.env.NODE_ENV === 'development',
+
+        // allow keys to be phrases having `:`, `.`
+        nsSeparator: false,
+        keySeparator: false,
+
+        whitelist: ['da-DK'],
+        load: 'currentOnly',
+
+        interpolation: {
+            escapeValue: false, // not needed for react as it escapes by default
+            defaultVariables: {
+                id: ':id'
+            }
+        }
+    })
+
+export default i18n

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { authenticationSucceeded } from '../redux/authentication/authentication.actions'
 import { IState } from '../types/redux/general.types'
@@ -29,10 +29,12 @@ const App: React.FC = () => {
     }
 
     return (
-        <div className={styles.app}>
-            <Notifications/>
-            {renderApp()}
-        </div>
+        <Suspense fallback="loading...">
+            <div className={styles.app}>
+                <Notifications/>
+                {renderApp()}
+            </div>
+        </Suspense>
     )
 }
 

@@ -1,7 +1,7 @@
 import Button, { buttonFontSizes, buttonTypes, buttonVariants } from '@bit/vk-media.cms.button'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { useTranslation } from 'vk-i18n'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
 import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
@@ -146,16 +146,18 @@ const List: React.FC<IListProps> = ({
                 space = { right: 1 }
             }
 
-            return (
-                <Button
-                    text={label}
-                    space={space}
-                    type={buttonTypes.TEXT}
-                    fontSize={buttonFontSizes.MEDIUM}
-                    variant={buttonVariants.PRIMARY}
-                    href={`/${typeUrl}/${id}`}
-                />
-            )
+            if (label) {
+                return (
+                    <Button
+                        text={label}
+                        space={space}
+                        type={buttonTypes.TEXT}
+                        fontSize={buttonFontSizes.MEDIUM}
+                        variant={buttonVariants.PRIMARY}
+                        href={t(`/${typeUrl}/:id`, {id})}
+                    />
+                )
+            }
         }
 
         return null
@@ -166,29 +168,31 @@ const List: React.FC<IListProps> = ({
             const label = deleteItems.label ?? t('Delete')
             const updateList = count > items.length
 
-            return (
-                <Button
-                    text={label}
-                    type={buttonTypes.TEXT}
-                    variant={buttonVariants.ERROR}
-                    fontSize={buttonFontSizes.MEDIUM}
-                    onClick={() => dispatch(deleteItem({
-                        id,
-                        type,
-                        startAction,
-                        errorAction,
-                        successAction: deleteSuccessAction,
-                        successNofitifcation: {
-                            heading: t('Success'),
-                            message: t('The item has been deleted'),
-                            type: NotificationTypes.SUCCESS
-                        },
-                        fetchSuccessAction: fetchSingletonsSuccess,
-                        offset,
-                        updateList
-                    }))}
-                />
-            )
+            if (label) {
+                return (
+                    <Button
+                        text={label}
+                        type={buttonTypes.TEXT}
+                        variant={buttonVariants.ERROR}
+                        fontSize={buttonFontSizes.MEDIUM}
+                        onClick={() => dispatch(deleteItem({
+                            id,
+                            type,
+                            startAction,
+                            errorAction,
+                            successAction: deleteSuccessAction,
+                            successNofitifcation: {
+                                heading: t('Success'),
+                                message: t('The item has been deleted'),
+                                type: NotificationTypes.SUCCESS
+                            },
+                            fetchSuccessAction: fetchSingletonsSuccess,
+                            offset,
+                            updateList
+                        }))}
+                    />
+                )
+            }
         }
 
         return null

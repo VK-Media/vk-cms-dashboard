@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'vk-i18n'
+import { useTranslation } from 'react-i18next'
 
 const ListUsers: React.FC = () => {
     const { t } = useTranslation()

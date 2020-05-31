@@ -41,11 +41,11 @@
     "/collections": "/samlinger",
     "/users": "/brugere",
     "/users/create": "/brugere/opret",
-    "/users/:id": "/brugere/:id",
+    "/users/:id": "/brugere/{{id}}",
     "/user-groups": "/brugergrupper",
     "/singletons": "/singletons",
     "/singletons/create": "/singletons/opret",
-    "/singletons/:id": "/singletons/:id",
+    "/singletons/:id": "/singletons/{{id}}",
     "/media": "/medier",
     "/settings": "/indstillinger",
 

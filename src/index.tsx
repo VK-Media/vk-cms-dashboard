@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
+import './i18n'
 import './index.scss'
 import ProviderWrapper from './redux/ProviderWrapper'
 import * as serviceWorker from './serviceWorker'
-import './i18n'
 
 ReactDOM.render(
     <ProviderWrapper>

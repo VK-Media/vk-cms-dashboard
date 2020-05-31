@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import Spinner from 'react-bootstrap/Spinner'
+import { useTranslation } from 'react-i18next'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { useTranslation } from 'vk-i18n'
 import { dashboardRoutes } from '../../routes'
 import DashboardLayout from '../layouts/Dashboard/DashboardLayout'
 
