@@ -9,9 +9,15 @@ const ListSingletons = React.lazy(() => import('./components/dashboard/singleton
 const CreateSingleton = React.lazy(() => import('./components/dashboard/singletons/Create'))
 const UpdateSingleton = React.lazy(() => import('./components/dashboard/singletons/Update'))
 const ListMedia = React.lazy(() => import('./components/dashboard/media/List'))
+const ListCollections = React.lazy(() => import('./components/dashboard/collections/List'))
+const CreateCollection = React.lazy(() => import('./components/dashboard/collections/Create'))
+const UpdateCollection = React.lazy(() => import('./components/dashboard/collections/Update'))
 
 export const dashboardRoutes = [
     { path: '/dashboard', exact: true, component: Home },
+    { path: '/collections', exact: true, component: ListCollections },
+    { path: '/collections/create', exact: true, component: CreateCollection },
+    { path: '/collections/:id', exact: true, component: UpdateCollection },
     { path: '/users', exact: true, component: ListUsers },
     { path: '/users/create', exact: false, component: CreateUser },
     { path: '/users/:id', exact: false, component: UpdateUser },

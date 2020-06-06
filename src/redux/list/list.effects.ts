@@ -2,6 +2,7 @@ import cmsApi from '../../apis/cms.api'
 import { IDeleteListItemArguments, IFetchListArguments, ListEffect } from '../../types/list/list.types'
 import { IState } from '../../types/redux/general.types'
 import { dispatchErrorNotification } from '../../utils/notification.utils'
+import { hideModal } from '../modal/modal.actions'
 import { addNotification } from '../notifications/notifications.actions'
 
 export const fetchListItems = (options: IFetchListArguments): ListEffect => async (
@@ -44,6 +45,7 @@ export const deleteItem = (options: IDeleteListItemArguments): ListEffect => asy
         if (response.status >= 200 && response.status < 300) {
             dispatch(successAction(response.data.id))
             dispatch(addNotification(successNofitifcation))
+            dispatch(hideModal())
 
             if (updateList) {
                 dispatch(fetchListItems({
