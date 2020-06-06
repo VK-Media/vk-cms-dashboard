@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
+import { showModal } from '../../../redux/modal/modal.actions'
 import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
 import styles from './List.module.scss'
@@ -154,7 +155,7 @@ const List: React.FC<IListProps> = ({
                         type={buttonTypes.TEXT}
                         fontSize={buttonFontSizes.MEDIUM}
                         variant={buttonVariants.PRIMARY}
-                        href={t(`/${typeUrl}/:id`, {id})}
+                        href={t(`/${typeUrl}/:id`, { id })}
                     />
                 )
             }
@@ -163,10 +164,35 @@ const List: React.FC<IListProps> = ({
         return null
     }
 
+    const deleteButtonClicked = (id: string) => {
+        const updateList = count > items.length
+
+        dispatch(showModal({
+            confirmButtonHandler: () => dispatch(deleteItem({
+                id,
+                type,
+                startAction,
+                errorAction,
+                successAction: deleteSuccessAction,
+                successNofitifcation: {
+                    heading: t('Success'),
+                    message: t('The item has been deleted'),
+                    type: NotificationTypes.SUCCESS
+                },
+                fetchSuccessAction: fetchSingletonsSuccess,
+                offset,
+                updateList
+            })),
+            type: buttonVariants.ERROR,
+            confirmButtonText: 'Delete',
+            heading: 'Delete record',
+            body: 'Are you sure you want to delete this record?'
+        }))
+    }
+
     const renderDeleteButton = (id: string) => {
         if (deleteItems && deleteItems.enable) {
             const label = deleteItems.label ?? t('Delete')
-            const updateList = count > items.length
 
             if (label) {
                 return (
@@ -175,21 +201,7 @@ const List: React.FC<IListProps> = ({
                         type={buttonTypes.TEXT}
                         variant={buttonVariants.ERROR}
                         fontSize={buttonFontSizes.MEDIUM}
-                        onClick={() => dispatch(deleteItem({
-                            id,
-                            type,
-                            startAction,
-                            errorAction,
-                            successAction: deleteSuccessAction,
-                            successNofitifcation: {
-                                heading: t('Success'),
-                                message: t('The item has been deleted'),
-                                type: NotificationTypes.SUCCESS
-                            },
-                            fetchSuccessAction: fetchSingletonsSuccess,
-                            offset,
-                            updateList
-                        }))}
+                        onClick={() => deleteButtonClicked(id)}
                     />
                 )
             }

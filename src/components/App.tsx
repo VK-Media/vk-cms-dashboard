@@ -6,6 +6,7 @@ import { getTokenFromLocalStorage } from '../utils/authentication.utils'
 import styles from './App.module.scss'
 import Dashboard from './dashboard/Dashboard'
 import Frontend from './frontend/Frontend'
+import Modal from './UI/modal/Modal'
 import Notifications from './UI/notifications/Notifications'
 
 const App: React.FC = () => {
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         <Suspense fallback="loading...">
             <div className={styles.app}>
                 <Notifications/>
+                <Modal/>
                 {renderApp()}
             </div>
         </Suspense>

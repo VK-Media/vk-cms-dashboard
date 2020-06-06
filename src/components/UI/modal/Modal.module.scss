@@ -1,0 +1,63 @@
+@import '../../../styles/variables';
+
+.backdrop {
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($black, .3);
+}
+
+.modal {
+    background-color: $white;
+    box-shadow: 0 0 6px rgba($black, .3);
+    border-radius: 5px;
+    overflow: hidden;
+
+    $sizes: ('sm': 40%, 'md': 60%, 'lg': 80%);
+
+    @each $name, $width in $sizes {
+        &.size-#{$name} {
+            width: $width;
+        }
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+
+        span {
+            font-size: 120%;
+        }
+
+        svg {
+            height: 22px;
+            fill: $cobalt;
+            transition: fill .25s;
+            cursor: pointer;
+
+            &:hover {
+                fill: $red;
+            }
+        }
+    }
+
+    .body {
+        padding: 15px 15px 30px;
+        font-weight: 300;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: flex-end;
+        padding: 15px;
+        border-top: 1px solid $light-grey;
+    }
+}
