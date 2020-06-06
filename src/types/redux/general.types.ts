@@ -1,5 +1,5 @@
-import { ILanguageState } from '../language/language.types'
 import { IMediaState } from '../media/media.types'
+import { IModalState } from '../modal/modal.types'
 import { IAuthenticationState } from './authentication.types'
 import { IDashboardState } from './dashboard.types'
 import { INotificationsState } from './notifications.types'
@@ -15,5 +15,5 @@ export interface IState {
     notifications: INotificationsState
     singletons: ISingletonsState
     media: IMediaState
-    language: ILanguageState
+    modal: IModalState
 }
