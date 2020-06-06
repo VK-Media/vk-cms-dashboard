@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { match, RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
-import { fetchSingleton, updateSingleton } from '../../../redux/singletons/singletons.effects'
+import { fetchCollection, updateCollection } from '../../../redux/collections/collections.effects'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
 
@@ -14,40 +14,40 @@ interface IParams {
     id?: string
 }
 
-interface IUpdateSingletonProps extends RouteComponentProps {
+interface IUpdateCollectionProps extends RouteComponentProps {
     match: match<IParams>
 }
 
-const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) => {
+const UpdateCollection: React.FC<IUpdateCollectionProps> = ({ match, history }) => {
     const dispatch = useDispatch()
-    const singletonToUpdate = useSelector((state: IState) => state.singletons.singletonToUpdate)
-    const loading = useSelector((state: IState) => state.singletons.loading)
+    const collectionToUpdate = useSelector((state: IState) => state.collections.collectionToUpdate)
+    const loading = useSelector((state: IState) => state.collections.loading)
     const [name, setName] = useState('')
     const { t } = useTranslation()
 
     useEffect(() => {
         if (match && match.params.id) {
-            dispatch(fetchSingleton(match.params.id))
+            dispatch(fetchCollection(match.params.id))
         }
     }, [match, dispatch])
 
     useEffect(() => {
-        if (singletonToUpdate) {
-            if (singletonToUpdate.name) {
-                setName(singletonToUpdate.name)
+        if (collectionToUpdate) {
+            if (collectionToUpdate.name) {
+                setName(collectionToUpdate.name)
             }
         }
-    }, [singletonToUpdate])
+    }, [collectionToUpdate])
 
     const submitHandler = (e: any) => {
         e.preventDefault()
 
         if (match && match.params.id) {
-            dispatch(updateSingleton(
+            dispatch(updateCollection(
                 { name },
                 match.params.id,
                 history,
-                t('/singletons')
+                t('/collections')
             ))
         }
     }
@@ -62,7 +62,7 @@ const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) =>
 
     return (
         <>
-            <h1>{t('Update Singleton')}</h1>
+            <h1>{t('Update Collection')}</h1>
 
             <Form onSubmit={submitHandler}>
                 <Widget>
@@ -91,4 +91,4 @@ const UpdateSingleton: React.FC<IUpdateSingletonProps> = ({ match, history }) =>
     )
 }
 
-export default UpdateSingleton
+export default UpdateCollection

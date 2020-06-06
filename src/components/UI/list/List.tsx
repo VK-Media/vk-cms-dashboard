@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteItem, fetchListItems } from '../../../redux/list/list.effects'
 import { showModal } from '../../../redux/modal/modal.actions'
-import { fetchSingletonsSuccess } from '../../../redux/singletons/singletons.actions'
 import { NotificationTypes } from '../../../types/redux/notifications.types'
 import styles from './List.module.scss'
 
@@ -111,17 +110,21 @@ const List: React.FC<IListProps> = ({
     }
 
     const renderItems = () => {
-        return items.map((item: any) => {
-            return (
-                <div key={item._id} className={styles.item}>
-                    {renderItemValues(item)}
-                    <div className={styles.controls}>
-                        {renderEditButton(item._id)}
-                        {renderDeleteButton(item._id)}
+        if (items) {
+            return items.map((item: any) => {
+                return (
+                    <div key={item._id} className={styles.item}>
+                        {renderItemValues(item)}
+                        <div className={styles.controls}>
+                            {renderEditButton(item._id)}
+                            {renderDeleteButton(item._id)}
+                        </div>
                     </div>
-                </div>
-            )
-        })
+                )
+            })
+        }
+
+        return null
     }
 
     const renderNewButton = () => {
@@ -179,7 +182,7 @@ const List: React.FC<IListProps> = ({
                     message: t('The item has been deleted'),
                     type: NotificationTypes.SUCCESS
                 },
-                fetchSuccessAction: fetchSingletonsSuccess,
+                fetchSuccessAction,
                 offset,
                 updateList
             })),
@@ -211,7 +214,7 @@ const List: React.FC<IListProps> = ({
     }
 
     const renderShowMoreButton = () => {
-        if (count > items.length) {
+        if (items && count > items.length) {
             return (
                 <div className={styles['show-more']}>
                     <Button

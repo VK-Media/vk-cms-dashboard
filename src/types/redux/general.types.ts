@@ -1,3 +1,4 @@
+import { ICollectionsState } from '../collections.types'
 import { IMediaState } from '../media/media.types'
 import { IModalState } from '../modal/modal.types'
 import { IAuthenticationState } from './authentication.types'
@@ -9,6 +10,7 @@ import { IUsersState } from './users.types'
 
 export interface IState {
     authentication: IAuthenticationState
+    collections: ICollectionsState
     dashboard: IDashboardState
     users: IUsersState
     userGroups: IUserGroupsState

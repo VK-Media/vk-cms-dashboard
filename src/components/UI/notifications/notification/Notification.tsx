@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { ReactComponent as SuccessIcon } from '../../../../icons/check.svg'
 import { ReactComponent as ErrorIcon } from '../../../../icons/exclamation-circle.svg'
@@ -10,6 +11,7 @@ import { INotification, NotificationTypes } from '../../../../types/redux/notifi
 import styles from './Notification.module.scss'
 
 const Notification: React.FC<INotification> = ({ id, heading, message, type }) => {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const typeClass = styles[`type-${type}`]
 
@@ -31,8 +33,8 @@ const Notification: React.FC<INotification> = ({ id, heading, message, type }) =
             <div className={styles.close} onClick={() => dispatch(removeNotification(id))}><CloseIcon/></div>
             <div className={styles.icon}>{getIcon()}</div>
             <div className={styles.content}>
-                <div className={styles.heading}>{heading}</div>
-                <div className={styles.message}>{message}</div>
+                <div className={styles.heading}>{t(heading)}</div>
+                <div className={styles.message}>{t(message)}</div>
             </div>
         </div>
     )

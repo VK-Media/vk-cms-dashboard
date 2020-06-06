@@ -6,22 +6,22 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
-import { createSingleton } from '../../../redux/singletons/singletons.effects'
+import { createCollection } from '../../../redux/collections/collections.effects'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
 
-const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
+const CreateCollection: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch()
-    const loading = useSelector((state: IState) => state.singletons.loading)
+    const loading = useSelector((state: IState) => state.collections.loading)
     const { t } = useTranslation()
 
     const [name, setName] = useState('')
 
     const submitHandler = (e: any) => {
         e.preventDefault()
-        dispatch(createSingleton({
+        dispatch(createCollection({
             name
-        }, history, t('/singletons')))
+        }, history, t('/collections')))
     }
 
     const renderLoader = () => {
@@ -34,7 +34,7 @@ const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <>
-            <h1>{t('Create New Singleton')}</h1>
+            <h1>{t('Create New Collection')}</h1>
 
             <Form onSubmit={submitHandler}>
                 <Widget>
@@ -61,4 +61,4 @@ const CreateSingleton: React.FC<RouteComponentProps> = ({ history }) => {
     )
 }
 
-export default CreateSingleton
+export default CreateCollection

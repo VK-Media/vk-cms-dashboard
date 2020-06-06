@@ -23,14 +23,22 @@
     "Confirm": "Bekræft",
     "Are you sure?": "Er du sikker?",
     "Are you sure you want to delete this record?": "Er du sikker på at du vil slette dette element?",
+    "General": "Generelt",
 
     "Home": "Hjem",
     "There are currently no files in this folder...": "Der er på nuværende tidspunkt ingen filer i denne mappe...",
 
+    "Create Collection": "Opret samling",
+    "Create New Collection": "Opret ny samling",
+    "Update Collection": "Opdater samling",
+    "The collection has been updated": "Samlingen er blevet opdateret",
+    "The collection has been created": "Samlingen er blevet oprettet",
+
     "Create Singleton": "Opret singleton",
     "Create New Singleton": "Opret ny singleton",
-    "General": "Generelt",
     "Update Singleton": "Opdater singleton",
+    "The singleton has been updated": "Singletonnen er blevet opdateret",
+    "The singleton has been created": "Singletonnen er blevet oprettet",
 
     "Create New User": "Opret ny bruger",
     "Personal Information": "Personlig information",
@@ -44,6 +52,8 @@
 
     "/dashboard": "/kontrolpanel",
     "/collections": "/samlinger",
+    "/collections/create": "/samlinger/opret",
+    "/collections/:id": "/samlinger/{{id}}",
     "/users": "/brugere",
     "/users/create": "/brugere/opret",
     "/users/:id": "/brugere/{{id}}",
