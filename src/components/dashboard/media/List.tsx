@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import Button, { buttonVariants } from '@bit/vk-media.cms.button'
+import React, { useEffect, useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,20 +15,72 @@ import { ReactComponent as PowerpointFileIcon } from '../../../icons/file-powerp
 import { ReactComponent as VideoFileIcon } from '../../../icons/file-video.svg'
 import { ReactComponent as WordFileIcon } from '../../../icons/file-word.svg'
 import { ReactComponent as FolderIcon } from '../../../icons/folder-open.svg'
+import { ReactComponent as EditIcon } from '../../../icons/pen.svg'
+import { ReactComponent as TrashIcon } from '../../../icons/trash-alt.svg'
 import { fetchMediaItems } from '../../../redux/media/media.effects'
 import { IMedia } from '../../../types/media/media.types'
 import { IState } from '../../../types/redux/general.types'
 import styles from './Media.module.scss'
 
+interface IContext {
+    show: boolean
+    item: IMedia
+    coordinates: {
+        x: number
+        y: number
+    }
+}
+
 const List: React.FC<RouteComponentProps> = ({ location }) => {
     const dispatch = useDispatch()
     const media = useSelector((state: IState) => state.media.media)
     const { t } = useTranslation()
+    const [contextMenu, setContextMenu] = useState<IContext>({
+        show: false,
+        item: { directory: false, name: '' },
+        coordinates: { x: 0, y: 0 }
+    })
+    const [folderInput, setFolderInput] = useState({ show: false, name: '', mode: 'create' })
     const pathname = location.pathname !== t('/media') ? location.pathname.replace(`${t('/media')}/`, '') : ''
 
     useEffect(() => {
         dispatch(fetchMediaItems(pathname))
     }, [dispatch, pathname])
+
+    useEffect(() => {
+        const escapeHandler = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setContextMenu({
+                    ...contextMenu,
+                    show: false
+                })
+            }
+
+            setFolderInput({
+                ...folderInput,
+                show: false
+            })
+        }
+
+        const clickHandler = (event: MouseEvent) => {
+            const target = event.target as HTMLDivElement
+
+            if (!target.classList.contains(styles['context-button'])) {
+                setContextMenu({
+                    ...contextMenu,
+                    show: false
+                })
+            }
+        }
+
+        document.addEventListener('keyup', escapeHandler)
+        document.addEventListener('click', clickHandler)
+
+        return () => {
+            document.removeEventListener('keyup', escapeHandler)
+            document.removeEventListener('click', clickHandler)
+        }
+    }, [contextMenu])
 
     const fileTypeIcons: any = {
         mp3: <AudioFileIcon/>,
@@ -75,8 +128,55 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
 
     const rightClickMedia = (event: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>, item: IMedia) => {
         event.preventDefault()
+        event.persist()
 
-        console.log(item)
+        setContextMenu({
+            show: true,
+            item: item,
+            coordinates: {
+                x: event.clientX,
+                y: event.clientY
+            }
+        })
+    }
+
+    const renameFolderClick = () => {
+        setFolderInput({
+            show: true,
+            name: contextMenu.item.name,
+            mode: 'rename'
+        })
+    }
+
+    const deleteMediaClick = () => {
+    }
+
+    const renderContextMenu = () => {
+        if (contextMenu.show) {
+            return (
+                <div
+                    className={styles['context-menu']}
+                    style={{ top: contextMenu.coordinates.y, left: contextMenu.coordinates.x }}
+                >
+                    <div
+                        className={`${styles['context-button']} ${styles.rename}`}
+                        onClick={renameFolderClick}
+                    >
+                        <EditIcon/>
+                        <span>Rename</span>
+                    </div>
+                    <div
+                        className={`${styles['context-button']} ${styles.delete}`}
+                        onClick={deleteMediaClick}
+                    >
+                        <TrashIcon/>
+                        <span>Delete</span>
+                    </div>
+                </div>
+            )
+        }
+
+        return null
     }
 
     const renderMedia = (values: IMedia[]) => {
@@ -165,13 +265,55 @@ const List: React.FC<RouteComponentProps> = ({ location }) => {
         )
     }
 
+    const newFolderClick = () => {
+        setFolderInput({
+            show: true,
+            mode: 'create',
+            name: ''
+        })
+    }
+
+    const renderNewFolderButton = () => {
+        return (
+            <Button
+                text={t('Create Folder')}
+                variant={buttonVariants.SUCCESS}
+                onClick={newFolderClick}
+            />
+        )
+    }
+
+    const renderFolderInput = () => {
+        if (folderInput.show) {
+            return (
+                <div className={styles['folder-input']}>
+                    <input
+                        type="text"
+                        value={folderInput.name}
+                        onChange={(e) => setFolderInput({ ...folderInput, name: e.target.value })}
+                        placeholder={t('Enter folder name...')}
+                    />
+                </div>
+            )
+        }
+
+        return null
+    }
+
     return (
         <>
-            <h1>{t('Media')}</h1>
+            <div className={styles.heading}>
+                <div>
+                    <h1>{t('Media')}</h1>
+                </div>
+                {renderNewFolderButton()}
+            </div>
 
             {renderBreadCrumb()}
             {renderFolders()}
             {renderFiles()}
+            {renderContextMenu()}
+            {renderFolderInput()}
         </>
     )
 }
