@@ -1,50 +1,21 @@
+import { History } from 'history'
 import cmsApi from '../../apis/cms.api'
 import { IState } from '../../types/redux/general.types'
 import { NotificationTypes } from '../../types/redux/notifications.types'
-import { IUserInput, UsersEffect } from '../../types/redux/users.types'
+import { IUserInput, UsersEffect } from '../../types/users.types'
+import { dispatchErrorNotification } from '../../utils/notification.utils'
 import { addNotification } from '../notifications/notifications.actions'
 import {
-    createUserFailed,
     createUserSucceeded,
-    deleteUserFailed,
-    deleteUserSucceeded,
-    fetchSingleUserFailed,
-    fetchSingleUserSucceeded,
-    fetchUsersFailed,
-    fetchUsersSucceeded,
-    startCreateUser,
-    startDeleteUser,
-    startFetchSingleUser,
-    startFetchUsers,
-    startUpdateUser,
-    updateUserFailed,
-    updateUserSucceeded
+    fetchUserSucceeded,
+    userEffectError,
+    startUserEffect
 } from './users.actions'
 
-export const fetchUsers = (): UsersEffect => async (dispatch, getState) => {
+export const fetchUser = (id: string): UsersEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
 
-    dispatch(startFetchUsers())
-
-    try {
-        const response = await cmsApi.get('/users', {
-            headers: { Authorization: `Bearer ${currentState.authentication.jwt}` }
-        })
-
-        if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchUsersSucceeded(response.data.objects))
-        } else {
-            dispatch(fetchUsersFailed())
-        }
-    } catch (error) {
-        dispatch(fetchUsersFailed())
-    }
-}
-
-export const fetchSingleUser = (id: string): UsersEffect => async (dispatch, getState) => {
-    const currentState: IState = getState()
-
-    dispatch(startFetchSingleUser())
+    dispatch(startUserEffect())
 
     try {
         const response = await cmsApi.get(`/users/${id}`, {
@@ -52,19 +23,24 @@ export const fetchSingleUser = (id: string): UsersEffect => async (dispatch, get
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(fetchSingleUserSucceeded(response.data))
+            dispatch(fetchUserSucceeded(response.data))
         } else {
-            dispatch(fetchSingleUserFailed())
+            dispatchErrorNotification(dispatch)
+            dispatch(userEffectError())
         }
     } catch (error) {
-        dispatch(fetchSingleUserFailed())
+        dispatchErrorNotification(dispatch)
+        dispatch(userEffectError())
     }
 }
 
-export const createUser = (userInput: IUserInput): UsersEffect => async (dispatch, getState) => {
+export const createUser = (userInput: IUserInput, history: History, redirect: string): UsersEffect => async (
+    dispatch,
+    getState
+) => {
     const currentState: IState = getState()
 
-    dispatch(startCreateUser())
+    dispatch(startUserEffect())
 
     try {
         const response = await cmsApi.post(`/users`, userInput, {
@@ -72,19 +48,32 @@ export const createUser = (userInput: IUserInput): UsersEffect => async (dispatc
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(createUserSucceeded(response.data))
+            dispatch(createUserSucceeded())
+            dispatch(addNotification({
+                heading: 'Success',
+                message: 'The user has been created',
+                type: NotificationTypes.SUCCESS
+            }))
+            history.push(redirect)
         } else {
-            dispatch(createUserFailed())
+            dispatchErrorNotification(dispatch)
+            dispatch(userEffectError())
         }
     } catch (error) {
-        dispatch(createUserFailed())
+        dispatchErrorNotification(dispatch)
+        dispatch(userEffectError())
     }
 }
 
-export const updateUser = (userInput: IUserInput, id: string): UsersEffect => async (dispatch, getState) => {
+export const updateUser = (
+    userInput: IUserInput,
+    id: string,
+    history: History,
+    redirect: string
+): UsersEffect => async (dispatch, getState) => {
     const currentState: IState = getState()
 
-    dispatch(startUpdateUser())
+    dispatch(startUserEffect())
 
     try {
         const response = await cmsApi.patch(`/users/${id}`, userInput, {
@@ -92,46 +81,18 @@ export const updateUser = (userInput: IUserInput, id: string): UsersEffect => as
         })
 
         if (response.status >= 200 && response.status < 300) {
-            dispatch(updateUserSucceeded(response.data))
             dispatch(addNotification({
                 heading: 'Success',
-                message: 'The user has been updated',
+                message: 'The user group has been updated',
                 type: NotificationTypes.SUCCESS
             }))
+            history.push(redirect)
         } else {
-            dispatch(updateUserFailed())
-            dispatch(addNotification({
-                heading: 'Error',
-                message: 'Something went wrong, try again later',
-                type: NotificationTypes.ERROR
-            }))
+            dispatchErrorNotification(dispatch)
+            dispatch(userEffectError())
         }
     } catch (error) {
-        dispatch(updateUserFailed())
-        dispatch(addNotification({
-            heading: 'Error',
-            message: 'Something went wrong, try again later',
-            type: NotificationTypes.ERROR
-        }))
-    }
-}
-
-export const deleteUser = (id: string): UsersEffect => async (dispatch, getState) => {
-    const currentState: IState = getState()
-
-    dispatch(startDeleteUser())
-
-    try {
-        const response = await cmsApi.delete(`/users/${id}`, {
-            headers: { Authorization: `Bearer ${currentState.authentication.jwt}` }
-        })
-
-        if (response.status >= 200 && response.status < 300) {
-            dispatch(deleteUserSucceeded(response.data))
-        } else {
-            dispatch(deleteUserFailed())
-        }
-    } catch (error) {
-        dispatch(deleteUserFailed())
+        dispatchErrorNotification(dispatch)
+        dispatch(userEffectError())
     }
 }

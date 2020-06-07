@@ -1,14 +1,40 @@
-import { IFetchUserGroupsFailed, IFetchUserGroupsSucceeded, IStartFetchUserGroups, IUserGroup } from '../../types/redux/userGroups.types'
+import {
+    ICreateUserGroupSucceeded,
+    IDeleteUserGroupSuccess,
+    IFetchUserGroupsSuccess,
+    IFetchUserGroupSucceeded,
+    IUserGroup,
+    IUserGroupEffectError,
+    IStartUserGroupEffect
+} from '../../types/userGroups.types'
 
-export const fetchUserGroupsSucceeded = (userGroups: IUserGroup[]): IFetchUserGroupsSucceeded => ({
-    type: 'fetchUserGroupsSucceeded',
-    payload: userGroups
+export const fetchUserGroupsSuccess = (
+    userGroups: IUserGroup[],
+    count: number,
+    append: boolean
+): IFetchUserGroupsSuccess => ({
+    type: 'fetchUserGroupsSuccess',
+    payload: { userGroups, count, append }
 })
 
-export const startFetchUserGroups = (): IStartFetchUserGroups => ({
-    type: 'startFetchUserGroups'
+export const fetchUserGroupSucceeded = (userGroup: IUserGroup): IFetchUserGroupSucceeded => ({
+    type: 'fetchUserGroupSucceeded',
+    payload: userGroup
 })
 
-export const fetchUserGroupsFailed = (): IFetchUserGroupsFailed => ({
-    type: 'fetchUserGroupsFailed'
+export const createUserGroupSucceeded = (): ICreateUserGroupSucceeded => ({
+    type: 'createUserGroupSucceeded'
+})
+
+export const startUserGroupEffect = (): IStartUserGroupEffect => ({
+    type: 'startUserGroupEffect'
+})
+
+export const userGroupEffectError = (): IUserGroupEffectError => ({
+    type: 'userGroupEffectError'
+})
+
+export const deleteUserGroupSuccess = (id: string): IDeleteUserGroupSuccess => ({
+    type: 'deleteUserGroupSuccess',
+    payload: id
 })

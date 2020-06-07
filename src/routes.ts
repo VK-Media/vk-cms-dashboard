@@ -1,10 +1,12 @@
 import React from 'react'
 
 const Home = React.lazy(() => import('./components/dashboard/home/Home'))
-const ListUsers = React.lazy(() => import('./components/dashboard/users/ListUsers'))
-const CreateUser = React.lazy(() => import('./components/dashboard/users/CreateUser'))
-const UpdateUser = React.lazy(() => import('./components/dashboard/users/UpdateUser'))
-const ListUserGroups = React.lazy(() => import('./components/dashboard/userGroups/ListUserGroups'))
+const ListUsers = React.lazy(() => import('./components/dashboard/users/List'))
+const CreateUser = React.lazy(() => import('./components/dashboard/users/Create'))
+const UpdateUser = React.lazy(() => import('./components/dashboard/users/Update'))
+const ListUserGroups = React.lazy(() => import('./components/dashboard/userGroups/List'))
+const CreateUserGroups = React.lazy(() => import('./components/dashboard/userGroups/Create'))
+const UpdateUserGroups = React.lazy(() => import('./components/dashboard/userGroups/Update'))
 const ListSingletons = React.lazy(() => import('./components/dashboard/singletons/List'))
 const CreateSingleton = React.lazy(() => import('./components/dashboard/singletons/Create'))
 const UpdateSingleton = React.lazy(() => import('./components/dashboard/singletons/Update'))
@@ -22,6 +24,8 @@ export const dashboardRoutes = [
     { path: '/users/create', exact: false, component: CreateUser },
     { path: '/users/:id', exact: false, component: UpdateUser },
     { path: '/user-groups', exact: true, component: ListUserGroups },
+    { path: '/user-groups/create', exact: true, component: CreateUserGroups },
+    { path: '/user-groups/:id', exact: true, component: UpdateUserGroups },
     { path: '/singletons', exact: true, component: ListSingletons },
     { path: '/singletons/create', exact: true, component: CreateSingleton },
     { path: '/singletons/:id', exact: true, component: UpdateSingleton },

@@ -1,28 +1,44 @@
 import produce from 'immer'
-import { IUserGroupsState, UserGroupsAction } from '../../types/redux/userGroups.types'
+import { IUserGroup, IUserGroupsState, UserGroupsAction } from '../../types/userGroups.types'
 
 export const initialState: IUserGroupsState = {
     userGroups: [],
     loading: false,
-    error: false
+    count: 0
 }
 
 const reducer = (state = initialState, action: UserGroupsAction) => {
     switch (action.type) {
-        case 'startFetchUserGroups':
+        case 'fetchUserGroupsSuccess':
+            return produce(state, draft => {
+                if (action.payload.append) {
+                    draft.userGroups = [...state.userGroups, ...action.payload.userGroups]
+                } else {
+                    draft.userGroups = action.payload.userGroups
+                }
+
+                draft.loading = false
+                draft.count = action.payload.count
+            })
+        case 'fetchUserGroupSucceeded':
+            return produce(state, draft => {
+                draft.userGroupToUpdate = action.payload
+                draft.loading = false
+            })
+        case 'startUserGroupEffect':
             return produce(state, draft => {
                 draft.loading = true
             })
-        case 'fetchUserGroupsFailed':
+        case 'userGroupEffectError':
             return produce(state, draft => {
                 draft.loading = false
-                draft.error = true
             })
-        case 'fetchUserGroupsSucceeded':
+        case 'deleteUserGroupSuccess':
             return produce(state, draft => {
-                draft.userGroups = action.payload
-                draft.loading = false
-                draft.error = false
+                draft.userGroups = state.userGroups.filter((userGroup: IUserGroup) => {
+                    return userGroup._id !== action.payload
+                })
+                draft.count = state.count - 1
             })
         default:
             return state
