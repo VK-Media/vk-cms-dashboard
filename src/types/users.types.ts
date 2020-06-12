@@ -4,17 +4,31 @@ import { IState } from './redux/general.types'
 import { NotificationsAction } from './redux/notifications.types'
 
 export interface IUserInput {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
+    firstName?: string
+    lastName?: string
+    email?: string
+    password?: string
+    settings?: IUserSettings
+    userGroups?: string[]
+}
+
+export enum Languages {
+    DANISH = 'DANISH',
+    ENGLISH = 'ENGLISH'
+}
+
+export interface IUserSettings {
+    language: Languages
 }
 
 export interface IUser {
     _id: string
-    firstName: string
-    lastName: string
     email: string
+    password: string
+    userGroups: string[]
+    firstName?: string
+    lastName?: string
+    settings: IUserSettings
 }
 
 export interface IFetchUsersSuccess extends Action {

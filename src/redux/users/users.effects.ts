@@ -83,7 +83,7 @@ export const updateUser = (
         if (response.status >= 200 && response.status < 300) {
             dispatch(addNotification({
                 heading: 'Success',
-                message: 'The user group has been updated',
+                message: 'The user has been updated',
                 type: NotificationTypes.SUCCESS
             }))
             history.push(redirect)

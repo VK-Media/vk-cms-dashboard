@@ -6,8 +6,15 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { match, RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { fetchListItems } from '../../../redux/list/list.effects'
+import {
+    fetchUserGroupsSuccess,
+    startUserGroupEffect,
+    userGroupEffectError
+} from '../../../redux/userGroups/userGroups.actions'
 import { fetchUser, updateUser } from '../../../redux/users/users.effects'
 import { IState } from '../../../types/redux/general.types'
+import { Languages } from '../../../types/users.types'
 import Widget from '../../UI/widget/Widget'
 
 interface IParams {
@@ -21,18 +28,34 @@ interface IUpdateUserProps extends RouteComponentProps {
 const UpdateUser: React.FC<IUpdateUserProps> = ({ match, history }) => {
     const dispatch = useDispatch()
     const userToUpdate = useSelector((state: IState) => state.users.userToUpdate)
+    const userGroups = useSelector((state: IState) => state.userGroups.userGroups)
     const loading = useSelector((state: IState) => state.users.loading)
+    const initialSelectedUserGroups: string[] = []
+    const { t } = useTranslation()
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const { t } = useTranslation()
+    const [language, setLanguage] = useState(Languages.DANISH)
+    const [selectedUserGroups, setSelectedUserGroups] = useState(initialSelectedUserGroups)
 
     useEffect(() => {
         if (match && match.params.id) {
             dispatch(fetchUser(match.params.id))
         }
     }, [match, dispatch])
+
+    useEffect(() => {
+        dispatch(fetchListItems({
+            type: 'userGroups',
+            append: false,
+            startAction: startUserGroupEffect,
+            successAction: fetchUserGroupsSuccess,
+            errorAction: userGroupEffectError,
+            limit: 0,
+            offset: 0
+        }))
+    }, [dispatch])
 
     useEffect(() => {
         if (userToUpdate) {
@@ -44,18 +67,64 @@ const UpdateUser: React.FC<IUpdateUserProps> = ({ match, history }) => {
                 setLastName(userToUpdate.lastName)
             }
 
-            if (userToUpdate.email) {
-                setEmail(userToUpdate.email)
-            }
+            setEmail(userToUpdate.email)
+            setLanguage(userToUpdate.settings.language)
+            setSelectedUserGroups(userToUpdate.userGroups)
         }
     }, [userToUpdate])
+
+    const handleUserGroupChange = (e: any) => {
+        const isChecked = e.target.checked
+        const userGroupId = e.target.value
+
+        if (isChecked) {
+            setSelectedUserGroups([...selectedUserGroups, userGroupId])
+        } else {
+            const newSelectedUserGroups = [...selectedUserGroups]
+            const index = newSelectedUserGroups.indexOf(userGroupId)
+
+            if (index > -1) {
+                newSelectedUserGroups.splice(index, 1)
+            }
+
+            setSelectedUserGroups(newSelectedUserGroups)
+        }
+    }
+
+    const isUserGroupChecked = (value: string): boolean => {
+        return selectedUserGroups.indexOf(value) > -1
+    }
+
+    const renderUserGroupOptions = () => {
+        if (userGroups) {
+            return userGroups.map(userGroup => {
+                return (
+                    <Form.Check
+                        value={userGroup._id}
+                        key={userGroup._id}
+                        label={userGroup.name}
+                        checked={isUserGroupChecked(userGroup._id)}
+                        onChange={handleUserGroupChange}
+                    />
+                )
+            })
+        }
+
+        return null
+    }
 
     const submitHandler = (e: any) => {
         e.preventDefault()
 
         if (match && match.params.id) {
             dispatch(updateUser(
-                { firstName, lastName, email, password },
+                {
+                    firstName,
+                    lastName,
+                    email,
+                    settings: { language },
+                    userGroups: selectedUserGroups
+                },
                 match.params.id,
                 history,
                 t('/users')
@@ -112,16 +181,36 @@ const UpdateUser: React.FC<IUpdateUserProps> = ({ match, history }) => {
                                 />
                             </Form.Group>
                         </Item>
+                    </Container>
+                </Widget>
 
+                <Widget>
+                    <Widget.Heading text={t('Settings')}/>
+
+                    <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
-                                <Form.Label>{t('Password')}</Form.Label>
+                                <Form.Label>{t('Language')}</Form.Label>
                                 <Form.Control
-                                    type="password"
-                                    autoComplete="new-password"
-                                    value={password}
-                                    onChange={(e: any) => setPassword(e.target.value)}
-                                />
+                                    as="select"
+                                    value={language}
+                                    onChange={(e: any) => setLanguage(e.target.value)}
+                                >
+                                    <option value={Languages.DANISH}>{t('Danish')}</option>
+                                    <option value={Languages.ENGLISH}>{t('English')}</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Item>
+                    </Container>
+                </Widget>
+
+                <Widget>
+                    <Widget.Heading text={t('User Groups')}/>
+
+                    <Container space={1}>
+                        <Item lg={6}>
+                            <Form.Group>
+                                {renderUserGroupOptions()}
                             </Form.Group>
                         </Item>
                     </Container>
