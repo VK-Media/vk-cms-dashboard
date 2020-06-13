@@ -48,10 +48,12 @@
     "The user group has been updated": "Brugergruppen er blevet opdateret",
     "The user group has been created": "Brugergruppen er blevet oprettet",
     "Modules": "Moduler",
+
     "User Module": "Bruger modul",
     "User Group Module": "Brugergruppe modul",
     "Collection Module": "Samling modul",
     "Media Module": "Medie modul",
+    "Singleton Module": "Singleton modul",
 
     "Create User": "Opret bruger",
     "Create New User": "Opret ny bruger",

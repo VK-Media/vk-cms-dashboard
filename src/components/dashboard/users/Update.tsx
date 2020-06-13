@@ -170,7 +170,9 @@ const UpdateUser: React.FC<IUpdateUserProps> = ({ match, history }) => {
                                 />
                             </Form.Group>
                         </Item>
+                    </Container>
 
+                    <Container space={1}>
                         <Item lg={6}>
                             <Form.Group>
                                 <Form.Label>{t('E-mail')}</Form.Label>
