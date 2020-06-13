@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover from 'react-bootstrap/Popover'
 import Spinner from 'react-bootstrap/Spinner'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { ReactComponent as InfoIcon } from '../../../icons/info-circle.svg'
 import { fetchModulesItems } from '../../../redux/modules/modules.effects'
 import { createUserGroup } from '../../../redux/userGroups/userGroups.effects'
 import { IModule } from '../../../types/modules.types'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
+import styles from './userGroups.module.scss'
 
 const CreateUserGroup: React.FC<RouteComponentProps> = ({ history }) => {
     const dispatch = useDispatch()
@@ -69,13 +73,21 @@ const CreateUserGroup: React.FC<RouteComponentProps> = ({ history }) => {
         if (modules) {
             return modules.map((module: IModule) => {
                 return (
-                    <Form.Check
-                        value={module.id}
-                        key={module.id}
-                        label={t(module.name)}
-                        checked={isModuleChecked(module.id)}
-                        onChange={handleModulehange}
-                    />
+                    <div className={styles['module-option']} key={module.id}>
+                        <Form.Check
+                            value={module.id}
+                            id={module.id}
+                            label={t(module.name)}
+                            checked={isModuleChecked(module.id)}
+                            onChange={handleModulehange}
+                        />
+                        <OverlayTrigger
+                            placement="left"
+                            overlay={<Popover content id={module.id}>{t(module.description)}</Popover>}
+                        >
+                            <InfoIcon/>
+                        </OverlayTrigger>
+                    </div>
                 )
             })
         }

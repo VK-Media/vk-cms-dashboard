@@ -50,10 +50,15 @@
     "Modules": "Moduler",
 
     "User Module": "Bruger modul",
+    "A module for managing users": "Modul til at håndtere brugere",
     "User Group Module": "Brugergruppe modul",
+    "A module for managing user groups": "Modul til at håndtere brugergrupper",
     "Collection Module": "Samling modul",
+    "A module for managing collections": "Modul til at håndtere samlinger",
     "Media Module": "Medie modul",
+    "A module for managing files and folders": "Modul til at håndtere filer og mapper",
     "Singleton Module": "Singleton modul",
+    "A module for managing singletons": "Modul til at håndtere singletons",
 
     "Create User": "Opret bruger",
     "Create New User": "Opret ny bruger",

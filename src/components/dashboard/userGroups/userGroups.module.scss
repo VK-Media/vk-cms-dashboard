@@ -1,0 +1,15 @@
+@import '~@bit/vk-media.cms.style.global';
+
+.module-option {
+    display: flex;
+    justify-content: space-between;
+
+    &:not(:last-of-type){
+        margin-bottom: 10px;
+    }
+
+    svg {
+        width: 24px;
+        fill: $cobalt;
+    }
+}
