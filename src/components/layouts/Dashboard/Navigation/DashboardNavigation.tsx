@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import avatar from '../../../../avatars/rlvk.jpeg'
 import { ReactComponent as SettingsIcon } from '../../../../icons/cog.svg'
 import { ReactComponent as SingletonsIcon } from '../../../../icons/gem.svg'
 import { ReactComponent as CollectionsIcon } from '../../../../icons/layer-group.svg'
@@ -11,6 +10,7 @@ import { ReactComponent as UserGroupsIcon } from '../../../../icons/user-lock.sv
 import { ReactComponent as UsersIcon } from '../../../../icons/users.svg'
 import { toggleMenu } from '../../../../redux/dashboard/dashboard.actions'
 import styles from '../DashboardLayout.module.scss'
+import User from '../User/User'
 import NavigationLink from './NavLink/NavigationLink'
 
 const DashboardNavigation: React.FC = () => {
@@ -35,7 +35,7 @@ const DashboardNavigation: React.FC = () => {
                 <NavigationLink iconComponent={<SettingsIcon/>} title={t('Settings')} url={t('/settings')}/>
             </nav>
 
-            <div className={styles.avatar} style={{ backgroundImage: `url(${avatar})` }}/>
+            <User/>
         </aside>
     )
 }

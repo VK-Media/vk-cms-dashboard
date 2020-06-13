@@ -1,0 +1,37 @@
+@import '~@bit/vk-media.cms.style.global';
+
+.avatar {
+    background-size: cover;
+    background-position: center center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin: 0 0 15px 12px;
+    cursor: pointer;
+}
+
+.menu {
+    position: fixed;
+    bottom: 60px;
+    left: 10px;
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0 0 6px rgba($black, .2);
+    overflow: hidden;
+    text-align: center;
+
+    .item {
+        padding: 5px 25px;
+        background-color: $white;
+        transition: background-color .25s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: lighten($blue, 43);
+        }
+
+        &.logout {
+            color: $red;
+        }
+    }
+}

@@ -51,7 +51,7 @@ const Login: React.FC = () => {
             <>
                 <Container>
                     <Item xl={{ span: 4, offset: 4 }}>
-                        <h1 className="mt-5">{t('Login')}</h1>
+                        <h1>{t('Login')}</h1>
                     </Item>
                 </Container>
                 <Container>

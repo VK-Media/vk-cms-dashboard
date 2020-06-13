@@ -3,6 +3,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import { useTranslation } from 'react-i18next'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { frontendRoutes } from '../../routes'
+import FrontendLayout from '../layouts/Frontend/Frontend'
 
 const Frontend: React.FC = () => {
     const { t } = useTranslation()
@@ -15,11 +16,13 @@ const Frontend: React.FC = () => {
 
     return (
         <BrowserRouter>
-            <Suspense fallback={<Spinner animation="border"/>}>
-                <Switch>
-                    {renderRoutes()}
-                </Switch>
-            </Suspense>
+            <FrontendLayout>
+                <Suspense fallback={<Spinner animation="border"/>}>
+                    <Switch>
+                        {renderRoutes()}
+                    </Switch>
+                </Suspense>
+            </FrontendLayout>
         </BrowserRouter>
     )
 }

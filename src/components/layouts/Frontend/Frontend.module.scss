@@ -1,0 +1,33 @@
+@import '~@bit/vk-media.cms.style.global';
+
+.layout {
+}
+
+.navigation {
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba($cobalt, .1);
+    padding: 10px 20px;
+
+    a {
+        color: $cobalt;
+        transition: color .25s;
+        text-decoration: none;
+
+        &:hover,
+        &:focus,
+        &.active {
+            color: $blue;
+        }
+    }
+}
+
+.content {
+    padding: 70px 20px 20px;
+}
