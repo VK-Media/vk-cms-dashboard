@@ -4,6 +4,7 @@ import collectionsReducer from './collections/collections.reducer'
 import dashboardReducer from './dashboard/dashboard.reducer'
 import mediaReducer from './media/media.reducer'
 import modalReducer from './modal/modal.reducer'
+import modulesReducer from './modules/modules.reducer'
 import notificationsReducer from './notifications/notifications.reducer'
 import singletonsReducer from './singletons/singletons.reducer'
 import userGroupsReducer from './userGroups/userGroups.reducer'
@@ -15,6 +16,7 @@ const reducer = combineReducers({
     dashboard: dashboardReducer,
     media: mediaReducer,
     modal: modalReducer,
+    modules: modulesReducer,
     notifications: notificationsReducer,
     singletons: singletonsReducer,
     userGroups: userGroupsReducer,

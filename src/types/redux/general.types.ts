@@ -1,6 +1,7 @@
 import { ICollectionsState } from '../collections.types'
 import { IMediaState } from '../media/media.types'
 import { IModalState } from '../modal/modal.types'
+import { IModulesState } from '../modules.types'
 import { IAuthenticationState } from './authentication.types'
 import { IDashboardState } from './dashboard.types'
 import { INotificationsState } from './notifications.types'
@@ -14,6 +15,7 @@ export interface IState {
     dashboard: IDashboardState
     users: IUsersState
     userGroups: IUserGroupsState
+    modules: IModulesState
     notifications: INotificationsState
     singletons: ISingletonsState
     media: IMediaState

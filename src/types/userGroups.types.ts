@@ -5,11 +5,13 @@ import { NotificationsAction } from './redux/notifications.types'
 
 export interface IUserGroupInput {
     name: string
+    modules?: string[]
 }
 
 export interface IUserGroup {
     _id: string
     name: string
+    modules?: string[]
 }
 
 export interface IFetchUserGroupsSuccess extends Action {

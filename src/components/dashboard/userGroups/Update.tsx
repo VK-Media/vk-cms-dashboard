@@ -6,7 +6,9 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { match, RouteComponentProps } from 'react-router-dom'
 import { Container, Item } from 'vk-grid'
+import { fetchModulesItems } from '../../../redux/modules/modules.effects'
 import { fetchUserGroup, updateUserGroup } from '../../../redux/userGroups/userGroups.effects'
+import { IModule } from '../../../types/modules.types'
 import { IState } from '../../../types/redux/general.types'
 import Widget from '../../UI/widget/Widget'
 
@@ -22,8 +24,17 @@ const UpdateUserGroup: React.FC<IUpdateUserGroupProps> = ({ match, history }) =>
     const dispatch = useDispatch()
     const userGroupToUpdate = useSelector((state: IState) => state.userGroups.userGroupToUpdate)
     const loading = useSelector((state: IState) => state.userGroups.loading)
-    const [name, setName] = useState('')
+    const modules = useSelector((state: IState) => state.modules.modules)
     const { t } = useTranslation()
+
+    const initialSelectedModules: string[] = []
+
+    const [name, setName] = useState('')
+    const [selectedModules, setSelectedModules] = useState(initialSelectedModules)
+
+    useEffect(() => {
+        dispatch(fetchModulesItems())
+    }, [dispatch])
 
     useEffect(() => {
         if (match && match.params.id) {
@@ -36,6 +47,10 @@ const UpdateUserGroup: React.FC<IUpdateUserGroupProps> = ({ match, history }) =>
             if (userGroupToUpdate.name) {
                 setName(userGroupToUpdate.name)
             }
+
+            if(userGroupToUpdate.modules){
+                setSelectedModules(userGroupToUpdate.modules)
+            }
         }
     }, [userGroupToUpdate])
 
@@ -44,7 +59,7 @@ const UpdateUserGroup: React.FC<IUpdateUserGroupProps> = ({ match, history }) =>
 
         if (match && match.params.id) {
             dispatch(updateUserGroup(
-                { name },
+                { name, modules: selectedModules },
                 match.params.id,
                 history,
                 t('/user-groups')
@@ -55,6 +70,46 @@ const UpdateUserGroup: React.FC<IUpdateUserGroupProps> = ({ match, history }) =>
     const renderLoader = () => {
         if (loading) {
             return <Spinner animation="border"/>
+        }
+
+        return null
+    }
+
+    const handleModulehange = (e: any) => {
+        const isChecked = e.target.checked
+        const moduleId = e.target.value
+
+        if (isChecked) {
+            setSelectedModules([...selectedModules, moduleId])
+        } else {
+            const newSelectedModules = [...selectedModules]
+            const index = newSelectedModules.indexOf(moduleId)
+
+            if (index > -1) {
+                newSelectedModules.splice(index, 1)
+            }
+
+            setSelectedModules(newSelectedModules)
+        }
+    }
+
+    const isModuleChecked = (value: string): boolean => {
+        return selectedModules.indexOf(value) > -1
+    }
+
+    const renderModuleOptions = () => {
+        if (modules) {
+            return modules.map((module: IModule) => {
+                return (
+                    <Form.Check
+                        value={module.id}
+                        key={module.id}
+                        label={t(module.name)}
+                        checked={isModuleChecked(module.id)}
+                        onChange={handleModulehange}
+                    />
+                )
+            })
         }
 
         return null
@@ -77,6 +132,18 @@ const UpdateUserGroup: React.FC<IUpdateUserGroupProps> = ({ match, history }) =>
                                     value={name}
                                     onChange={(e: any) => setName(e.target.value)}
                                 />
+                            </Form.Group>
+                        </Item>
+                    </Container>
+                </Widget>
+
+                <Widget>
+                    <Widget.Heading text={t('Modules')}/>
+
+                    <Container space={1}>
+                        <Item lg={6}>
+                            <Form.Group>
+                                {renderModuleOptions()}
                             </Form.Group>
                         </Item>
                     </Container>
